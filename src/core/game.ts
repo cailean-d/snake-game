@@ -8,7 +8,8 @@ export class Game {
   public frameDelta: number;
   private lastTimestamp: number;
 
-  constructor(private canvas: HTMLCanvasElement) {
+  constructor(public canvas: HTMLCanvasElement) {
+    this.canvas.tabIndex = 0;
     this.input = new Input(document.body);
     this.ctx = this.canvas.getContext('2d');
     this.objects = [];
@@ -38,8 +39,7 @@ export class Game {
   }
 
   private updateTime(timestamp: number) {
-    this.frameDelta = this.lastTimestamp > 0 ? timestamp - this.lastTimestamp : 1;
+    this.frameDelta = this.lastTimestamp > 0 ? timestamp - this.lastTimestamp : 0;
     this.lastTimestamp = timestamp;
   }
-
 }

@@ -10,10 +10,23 @@ export interface KeyboardParams {
 }
 
 export interface Object {
+  type: ObjectTypes;
   render(game: Game): void;
 }
 
 export enum ObjectTypes {
   SNAKE,
   APPLE,
+}
+
+export interface Point {
+  x: number;
+  y: number;
+}
+
+export enum SnakeDirection {
+  LEFT,
+  UP,
+  RIGHT,
+  DOWN,
 }
