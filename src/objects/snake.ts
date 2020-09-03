@@ -1,5 +1,6 @@
 import { Object, ObjectTypes, SnakeDirection, Point, GameOptions } from './../interfaces';
 import { Game } from './../core/game';
+import { Apple } from './../objects/apple';
 import { CollisionDelection } from './../core/collision';
 
 export class Snake<T extends GameOptions> implements Object<T> {
@@ -19,7 +20,6 @@ export class Snake<T extends GameOptions> implements Object<T> {
 
   public render() {
     this.updateTimer();
-    this.move();
     this.checkCollision();
     this.snakeTail.forEach((point, i) => {
       const color = this.getColor(i);
@@ -48,7 +48,10 @@ export class Snake<T extends GameOptions> implements Object<T> {
     } else if (this.collision.withTail()) {
       console.log('game over: tail');
     } else if (this.collision.withApple()) {
-      console.log('+ apple');
+      this.move(true);
+      this.generateNextApple();
+    } else {
+      this.move();
     }
   }
 
@@ -74,10 +77,10 @@ export class Snake<T extends GameOptions> implements Object<T> {
     }
   }
 
-  private move() {
+  private move(snakeGrow = false) {
     if (this.canMove()) {
       const head = this.snakeTail[this.snakeTail.length - 1];
-      const tail = this.snakeTail.shift();
+      const tail = snakeGrow ? window.Object.assign({}, head) : this.snakeTail.shift();
       switch (this.direction) {
         case SnakeDirection.LEFT:
           tail.x = head.x - 1;
@@ -99,6 +102,11 @@ export class Snake<T extends GameOptions> implements Object<T> {
       this.snakeTail.push(tail);
       this.timer = 0;
     }
+  }
+
+  private generateNextApple() {
+    const apple = this.game.objects.find(obj => obj.type === ObjectTypes.APPLE) as Apple<T>;
+    apple.generatePosition();
   }
 
   private drawCeil(point: Point, color: string) {
