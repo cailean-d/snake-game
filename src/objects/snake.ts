@@ -1,30 +1,30 @@
-import { Object, ObjectTypes, SnakeDirection, Point } from './../interfaces';
+import { Object, ObjectTypes, SnakeDirection, Point, GameOptions } from './../interfaces';
 import { Game } from './../core/game';
+import { CollisionDelection } from './../core/collision';
 
-export class Snake implements Object {
+export class Snake<T extends GameOptions> implements Object<T> {
   public type: ObjectTypes;
+  public snakeTail: Point[];
   private direction: SnakeDirection;
-  private size = 15;
-  private length = 5;
-  private snakeTail: Point[];
   private timer: number;
-  private timeThreshold: number;
+  private collision: CollisionDelection<T>;
 
-  constructor() {
+  constructor(private game: Game<T>) {
     this.type = ObjectTypes.SNAKE;
     this.direction = SnakeDirection.RIGHT;
+    this.collision = new CollisionDelection(this.game);
     this.snakeTail = this.generateSnake();
     this.timer = 0;
-    this.timeThreshold = 200;
   }
 
-  public render(game: Game) {
+  public render() {
+    this.updateTimer();
+    this.move();
+    this.checkCollision();
     this.snakeTail.forEach((point, i) => {
       const color = this.getColor(i);
-      this.drawCeil(game.ctx, point, color);
+      this.drawCeil(point, color);
     });
-    this.updateTimer(game.frameDelta);
-    this.move();
   }
 
   public turn(direction: SnakeDirection) {
@@ -39,7 +39,17 @@ export class Snake implements Object {
   }
 
   private generateSnake(): Point[] {
-    return Array.from(Array(this.length).keys()).map(i => ({ x: i, y: 0 }));
+    return Array.from(Array(this.game.options.snakeLength).keys()).map(i => ({ x: i, y: 0 }));
+  }
+
+  private checkCollision() {
+    if (this.collision.withWalls()) {
+      console.log('game over: walls');
+    } else if (this.collision.withTail()) {
+      console.log('game over: tail');
+    } else if (this.collision.withApple()) {
+      console.log('+ apple');
+    }
   }
 
   private getColor(i: number) {
@@ -51,12 +61,12 @@ export class Snake implements Object {
     }
   }
 
-  private updateTimer(frameDelta: number) {
-    this.timer += frameDelta;
+  private updateTimer() {
+    this.timer += this.game.frameDelta;
   }
 
   private canMove(): boolean {
-    if (this.timer > this.timeThreshold) {
+    if (this.timer > this.game.options.timeThreshold) {
       this.timer = 0;
       return true;
     } else {
@@ -91,15 +101,15 @@ export class Snake implements Object {
     }
   }
 
-  private drawCeil(ctx: CanvasRenderingContext2D, point: Point, color: string) {
-    const x = point.x * this.size + this.size / 2;
-    const y = point.y * this.size + this.size / 2;
-    const radius = this.size / 2;
+  private drawCeil(point: Point, color: string) {
+    const x = point.x * this.game.options.size + this.game.options.size / 2;
+    const y = point.y * this.game.options.size + this.game.options.size / 2;
+    const radius = this.game.options.size / 2;
     const start = 0;
     const end = 2 * Math.PI;
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(x, y, radius, start, end);
-    ctx.fill();
+    this.game.ctx.fillStyle = color;
+    this.game.ctx.beginPath();
+    this.game.ctx.arc(x, y, radius, start, end);
+    this.game.ctx.fill();
   }
 }

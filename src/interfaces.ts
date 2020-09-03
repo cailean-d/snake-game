@@ -1,5 +1,3 @@
-import { Game } from './core/game';
-
 export type KeyboardHandler = (params: KeyboardParams) => void;
 
 export interface KeyboardParams {
@@ -9,9 +7,9 @@ export interface KeyboardParams {
   key: string;
 }
 
-export interface Object {
+export interface Object<T> {
   type: ObjectTypes;
-  render(game: Game): void;
+  render(): void;
 }
 
 export enum ObjectTypes {
@@ -29,4 +27,10 @@ export enum SnakeDirection {
   UP,
   RIGHT,
   DOWN,
+}
+
+export interface GameOptions {
+  size: number;
+  snakeLength: number;
+  timeThreshold: number;
 }
