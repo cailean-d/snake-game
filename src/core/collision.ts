@@ -1,4 +1,4 @@
-import { GameOptions, ObjectTypes } from './../interfaces';
+import { GameOptions, ObjectTypes, Point } from './../interfaces';
 import { Game } from './../core/game';
 import { Snake } from './../objects/snake';
 import { Apple } from './../objects/apple';
@@ -10,10 +10,10 @@ export class CollisionDelection<T extends GameOptions> {
     const snake = this.game.objects.find(obj => obj.type === ObjectTypes.SNAKE) as Snake<T>;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (
-      head.x == -1 ||
-      head.x == this.game.canvas.width / this.game.options.size ||
-      head.y == -1 ||
-      head.y == this.game.canvas.height / this.game.options.size
+      head.x <= -1 ||
+      head.y <= -1 ||
+      head.x === this.game.canvas.width / this.game.options.size ||
+      head.y === this.game.canvas.height / this.game.options.size
     ) {
       return true;
     }
@@ -37,6 +37,16 @@ export class CollisionDelection<T extends GameOptions> {
     const apple = this.game.objects.find(obj => obj.type === ObjectTypes.APPLE) as Apple<T>;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (head.x === apple.position.x && head.y === apple.position.y) {
+      return true;
+    }
+    return false;
+  }
+
+  withPoint(point: Point) {
+    const snake = this.game.objects.find(obj => obj.type === ObjectTypes.SNAKE) as Snake<T>;
+    if (!snake) return false;
+    const head = snake.snakeTail[snake.snakeTail.length - 1];
+    if (head.x === point.x && head.y === point.y) {
       return true;
     }
     return false;

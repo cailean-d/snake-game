@@ -1,12 +1,15 @@
 import { Object, ObjectTypes, Point, GameOptions } from './../interfaces';
 import { Game } from './../core/game';
+import { CollisionDelection } from './../core/collision';
 
 export class Apple<T extends GameOptions> implements Object<T> {
   public type: ObjectTypes;
   public position: Point;
+  private collision: CollisionDelection<T>;
 
   constructor(private game: Game<T>) {
     this.type = ObjectTypes.APPLE;
+    this.collision = new CollisionDelection(this.game);
     this.generatePosition();
   }
 
@@ -16,10 +19,18 @@ export class Apple<T extends GameOptions> implements Object<T> {
 
   public generatePosition() {
     const g = this.game;
-    this.position = {
-      x: Math.round((Math.random() * (g.canvas.width - g.options.size)) / g.options.size),
-      y: Math.round((Math.random() * (g.canvas.height - g.options.size)) / g.options.size),
-    }
+    let position: Point;
+    do {
+      position = {
+        x: Math.round((Math.random() * (g.canvas.width - g.options.size)) / g.options.size),
+        y: Math.round((Math.random() * (g.canvas.height - g.options.size)) / g.options.size),
+      }
+    } while(this.checkCollision(position));
+    this.position = position;
+  }
+
+  private checkCollision(point: Point) {
+    return this.collision.withPoint(point);
   }
 
   private drawCeil(point: Point, color: string) {
