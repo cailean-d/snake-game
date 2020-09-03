@@ -10,6 +10,7 @@ export interface KeyboardParams {
 export interface Object<T> {
   type: ObjectTypes;
   render(): void;
+  reset(): void;
 }
 
 export enum ObjectTypes {

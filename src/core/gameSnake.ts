@@ -5,7 +5,7 @@ import { Apple } from './../objects/apple';
 import { Snake } from './../objects/snake';
 
 export class GameSnake {
-  private game: Game<GameOptions>;
+  public game: Game<GameOptions>;
 
   constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
     const opts = Object.assign({}, this.defaultOptions, options || {});
@@ -18,14 +18,20 @@ export class GameSnake {
     this.game.start();
   }
 
+  public restart() {
+    for (const object of this.game.objects) {
+      object.reset();
+    }
+  }
+
   private get defaultOptions() {
     const options: GameOptions = { size: 15, snakeLength: 5, timeThreshold: 50 };
     return options;
   }
 
   private addObjects() {
-    const apple = new Apple<GameOptions>(this.game);
-    const snake = new Snake<GameOptions>(this.game);
+    const apple = new Apple<GameOptions>(this);
+    const snake = new Snake<GameOptions>(this);
     this.game.addObject(apple);
     this.game.addObject(snake);
   }

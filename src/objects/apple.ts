@@ -1,15 +1,15 @@
 import { Object, ObjectTypes, Point, GameOptions } from './../interfaces';
-import { Game } from './../core/game';
+import { GameSnake } from './../core/gameSnake';
 import { CollisionDelection } from './../core/collision';
 
 export class Apple<T extends GameOptions> implements Object<T> {
   public type: ObjectTypes;
   public position: Point;
-  private collision: CollisionDelection<T>;
+  private collision: CollisionDelection<GameOptions>;
 
-  constructor(private game: Game<T>) {
+  constructor(private gameSnake: GameSnake) {
     this.type = ObjectTypes.APPLE;
-    this.collision = new CollisionDelection(this.game);
+    this.collision = new CollisionDelection(this.gameSnake.game);
     this.generatePosition();
   }
 
@@ -17,8 +17,12 @@ export class Apple<T extends GameOptions> implements Object<T> {
     this.drawCeil(this.position, '#d21313');
   }
 
+  public reset() {
+    this.generatePosition();
+  }
+
   public generatePosition() {
-    const g = this.game;
+    const g = this.gameSnake.game;
     let position: Point;
     do {
       position = {
@@ -34,7 +38,7 @@ export class Apple<T extends GameOptions> implements Object<T> {
   }
 
   private drawCeil(point: Point, color: string) {
-    const g = this.game;
+    const g = this.gameSnake.game;
     const x = point.x * g.options.size + g.options.size / 2;
     const y = point.y * g.options.size + g.options.size / 2;
     const radius = g.options.size / 2;
