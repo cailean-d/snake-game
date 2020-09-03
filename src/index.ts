@@ -6,7 +6,7 @@ import { Snake } from './objects/snake';
 
 const canvas = document.querySelector('#stage') as HTMLCanvasElement;
 
-const options: GameOptions = { size: 15, snakeLength: 5, timeThreshold: 200 };
+const options: GameOptions = { size: 15, snakeLength: 5, timeThreshold: 50 };
 const game = new Game<GameOptions>(canvas, options);
 const apple = new Apple<GameOptions>(game);
 const snake = new Snake<GameOptions>(game);

@@ -43,15 +43,17 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private checkCollision() {
-    if (this.collision.withWalls()) {
-      console.log('game over: walls');
-    } else if (this.collision.withTail()) {
-      console.log('game over: tail');
-    } else if (this.collision.withApple()) {
-      this.move(true);
-      this.generateNextApple();
-    } else {
-      this.move();
+    if (this.canMove()) {
+      if (this.collision.withWalls()) {
+        console.log('game over: walls');
+      } else if (this.collision.withTail()) {
+        console.log('game over: tail');
+      } else if (this.collision.withApple()) {
+        this.move(true);
+        this.generateNextApple();
+      } else {
+        this.move();
+      }
     }
   }
 
@@ -78,30 +80,28 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private move(snakeGrow = false) {
-    if (this.canMove()) {
-      const head = this.snakeTail[this.snakeTail.length - 1];
-      const tail = snakeGrow ? window.Object.assign({}, head) : this.snakeTail.shift();
-      switch (this.direction) {
-        case SnakeDirection.LEFT:
-          tail.x = head.x - 1;
-          tail.y = head.y;
-          break;
-        case SnakeDirection.UP:
-          tail.x = head.x;
-          tail.y = head.y - 1;
-          break;
-        case SnakeDirection.RIGHT:
-          tail.x = head.x + 1;
-          tail.y = head.y;
-          break;
-        case SnakeDirection.DOWN:
-          tail.x = head.x;
-          tail.y = head.y + 1;
-          break;
-      }
-      this.snakeTail.push(tail);
-      this.timer = 0;
+    const head = this.snakeTail[this.snakeTail.length - 1];
+    const tail = snakeGrow ? window.Object.assign({}, head) : this.snakeTail.shift();
+    switch (this.direction) {
+      case SnakeDirection.LEFT:
+        tail.x = head.x - 1;
+        tail.y = head.y;
+        break;
+      case SnakeDirection.UP:
+        tail.x = head.x;
+        tail.y = head.y - 1;
+        break;
+      case SnakeDirection.RIGHT:
+        tail.x = head.x + 1;
+        tail.y = head.y;
+        break;
+      case SnakeDirection.DOWN:
+        tail.x = head.x;
+        tail.y = head.y + 1;
+        break;
     }
+    this.snakeTail.push(tail);
+    this.timer = 0;
   }
 
   private generateNextApple() {
