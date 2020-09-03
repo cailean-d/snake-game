@@ -16,6 +16,7 @@ export interface Object<T> {
 export enum ObjectTypes {
   SNAKE,
   APPLE,
+  SCORE,
 }
 
 export interface Point {

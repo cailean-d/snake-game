@@ -3,6 +3,7 @@ import { KEY } from './input';
 import { SnakeDirection, GameOptions, ObjectTypes } from './../interfaces';
 import { Apple } from './../objects/apple';
 import { Snake } from './../objects/snake';
+import { Score } from './../objects/score';
 
 export class GameSnake {
   public game: Game<GameOptions>;
@@ -25,15 +26,17 @@ export class GameSnake {
   }
 
   private get defaultOptions() {
-    const options: GameOptions = { size: 15, snakeLength: 5, timeThreshold: 50 };
+    const options: GameOptions = { size: 15, snakeLength: 5, timeThreshold: 100 };
     return options;
   }
 
   private addObjects() {
     const apple = new Apple<GameOptions>(this);
     const snake = new Snake<GameOptions>(this);
+    const score = new Score<GameOptions>(this);
     this.game.addObject(apple);
     this.game.addObject(snake);
+    this.game.addObject(score);
   }
 
   private setInput() {

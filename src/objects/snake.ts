@@ -1,6 +1,7 @@
 import { Object, ObjectTypes, SnakeDirection, Point, GameOptions } from './../interfaces';
 import { GameSnake } from './../core/gameSnake';
 import { Apple } from './../objects/apple';
+import { Score } from './../objects/score';
 import { CollisionDelection } from './../core/collision';
 
 export class Snake<T extends GameOptions> implements Object<T> {
@@ -8,14 +9,15 @@ export class Snake<T extends GameOptions> implements Object<T> {
   public snakeTail: Point[];
   private direction: SnakeDirection;
   private timer: number;
+  private timeThreshold: number;
+  private minTimeThreshold: number;
   private collision: CollisionDelection<GameOptions>;
 
   constructor(private gameSnake: GameSnake) {
     this.type = ObjectTypes.SNAKE;
-    this.direction = SnakeDirection.RIGHT;
     this.collision = new CollisionDelection(this.gameSnake.game);
-    this.snakeTail = this.generateSnake();
-    this.timer = 0;
+    this.minTimeThreshold = 20;
+    this.reset();
   }
 
   public render() {
@@ -30,6 +32,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
   public reset() {
     this.direction = SnakeDirection.RIGHT;
     this.snakeTail = this.generateSnake();
+    this.timeThreshold = this.gameSnake.game.options.timeThreshold;
     this.timer = 0;
   }
 
@@ -58,6 +61,8 @@ export class Snake<T extends GameOptions> implements Object<T> {
       } else if (this.collision.withApple()) {
         this.move(true);
         this.generateNextApple();
+        this.updateScore();
+        this.updateSpeed();
       } else {
         this.move();
       }
@@ -78,7 +83,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private canMove(): boolean {
-    if (this.timer > this.gameSnake.game.options.timeThreshold) {
+    if (this.timer > this.timeThreshold) {
       this.timer = 0;
       return true;
     } else {
@@ -114,6 +119,19 @@ export class Snake<T extends GameOptions> implements Object<T> {
   private generateNextApple() {
     const apple = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.APPLE) as Apple<T>;
     apple.generatePosition();
+  }
+
+  private updateScore() {
+    const score = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.SCORE) as Score<T>;
+    score.scoreUp(this.timeThreshold);
+  }
+
+  private updateSpeed() {
+    const score = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.SCORE) as Score<T>;
+    const defaultThreshold = this.gameSnake.game.options.timeThreshold;
+    const percent = this.gameSnake.game.options.timeThreshold / 100;
+    const scoreMidifier = score.defaultScore ? score.score / score.defaultScore : score.defaultScore;
+    this.timeThreshold = Math.max(this.minTimeThreshold, defaultThreshold - percent * scoreMidifier);
   }
 
   private drawCeil(point: Point, color: string) {
