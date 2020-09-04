@@ -1,15 +1,15 @@
 import { Object, ObjectTypes, Point, GameOptions } from './../interfaces';
 import { GameSnake } from './../core/gameSnake';
-import { CollisionDelection } from './../core/collision';
+import { CollisionDetection } from './../core/collision';
 
 export class Apple<T extends GameOptions> implements Object<T> {
   public type: ObjectTypes;
   public position: Point;
-  private collision: CollisionDelection<GameOptions>;
+  private collision: CollisionDetection<GameOptions>;
 
   constructor(private gameSnake: GameSnake) {
     this.type = ObjectTypes.APPLE;
-    this.collision = new CollisionDelection(this.gameSnake.game);
+    this.collision = new CollisionDetection(this.gameSnake.game);
     this.generatePosition();
   }
 

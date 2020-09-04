@@ -36,3 +36,11 @@ export interface GameOptions {
   snakeLength: number;
   timeThreshold: number;
 }
+
+export interface AssetLoaderItems {
+  key: string;
+  url: string;
+}
+
+export type AssetLoaderItemsMap<T extends string> = Partial<Record<T, HTMLImageElement>>;
+export type SnakeGameAssets = 'snakeTile';

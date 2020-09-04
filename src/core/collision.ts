@@ -3,7 +3,7 @@ import { Game } from './../core/game';
 import { Snake } from './../objects/snake';
 import { Apple } from './../objects/apple';
 
-export class CollisionDelection<T extends GameOptions> {
+export class CollisionDetection<T extends GameOptions> {
   constructor(private game: Game<T>) {}
 
   withWalls() {

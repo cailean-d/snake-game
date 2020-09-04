@@ -1,21 +1,35 @@
 import { Game } from './game';
+import { AssetLoader } from './assetLoader';
 import { KEY } from './input';
-import { SnakeDirection, GameOptions, ObjectTypes } from './../interfaces';
 import { Apple } from './../objects/apple';
 import { Snake } from './../objects/snake';
 import { Score } from './../objects/score';
+import snakeTile from './../assets/snake-tiles.png';
+import {
+  SnakeDirection,
+  GameOptions,
+  ObjectTypes,
+  SnakeGameAssets,
+  AssetLoaderItemsMap
+} from './../interfaces';
 
 export class GameSnake {
   public game: Game<GameOptions>;
+  public assetLoader: AssetLoader<SnakeGameAssets>;
+  public assets: AssetLoaderItemsMap<SnakeGameAssets>;
 
   constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
     const opts = Object.assign({}, this.defaultOptions, options || {});
     this.game = new Game<GameOptions>(canvas, opts);
+    this.assetLoader = new AssetLoader();
+    this.assetLoader.add('snakeTile', snakeTile);
     this.addObjects();
     this.setInput();
   }
 
-  public start() {
+  public async start() {
+    this.assets = await this.assetLoader.load();
+    console.log(this.assets)
     this.game.start();
   }
 
