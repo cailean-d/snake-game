@@ -7,6 +7,7 @@ export class Snake implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public snakeTail: Point[];
   private direction: SnakeDirection;
+  private nextDirection: SnakeDirection;
   private timer: number;
   private timeThreshold: number;
   private minTimeThreshold: number;
@@ -27,19 +28,24 @@ export class Snake implements GameObject<ObjectTypes> {
 
   public reset() {
     this.direction = SnakeDirection.RIGHT;
+    this.nextDirection = SnakeDirection.RIGHT;
     this.snakeTail = this.generateSnake();
     this.timeThreshold = this.gameSnake.options.timeThreshold;
     this.timer = 0;
   }
 
   public turn(direction: SnakeDirection) {
+    this.nextDirection = direction;
+  }
+
+  private tryTurn() {
     if (
-      (direction === SnakeDirection.LEFT && this.direction !== SnakeDirection.RIGHT) ||
-      (direction === SnakeDirection.UP && this.direction !== SnakeDirection.DOWN) ||
-      (direction === SnakeDirection.RIGHT && this.direction !== SnakeDirection.LEFT) ||
-      (direction === SnakeDirection.DOWN && this.direction !== SnakeDirection.UP)
+      (this.nextDirection === SnakeDirection.LEFT && this.direction !== SnakeDirection.RIGHT) ||
+      (this.nextDirection === SnakeDirection.UP && this.direction !== SnakeDirection.DOWN) ||
+      (this.nextDirection === SnakeDirection.RIGHT && this.direction !== SnakeDirection.LEFT) ||
+      (this.nextDirection === SnakeDirection.DOWN && this.direction !== SnakeDirection.UP)
     ) {
-      this.direction = direction;
+      this.direction = this.nextDirection;
     }
   }
 
@@ -50,18 +56,20 @@ export class Snake implements GameObject<ObjectTypes> {
 
   private checkCollision() {
     if (this.canMove()) {
-      if (this.collision.withWalls()) {
-        this.gameSnake.restart();
-      } else if (this.collision.withTail()) {
-        this.gameSnake.restart();
-      } else if (this.collision.withApple()) {
+      this.tryTurn();
+      if (this.collision.withApple()) {
         this.move(true);
         this.generateNextApple();
         this.updateScore();
         this.updateSpeed();
-      } else {
-        this.move();
+        return;
       }
+      this.move();
+      if (this.collision.withWalls()) {
+        this.gameSnake.restart();
+      } else if (this.collision.withTail()) {
+        this.gameSnake.restart();
+      } 
     }
   }
 

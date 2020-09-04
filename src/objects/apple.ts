@@ -20,7 +20,6 @@ export class Apple implements GameObject<ObjectTypes> {
     // for (let i = 0; i < this.gameSnake.options.mapSize.width; i++) {
     //   for (let j = 0; j < this.gameSnake.options.mapSize.height; j++) {
     //     const cell = this.gameSnake.tileMap.getCell({ row: j, column: i });
-    //     console.log(cell)
     //     this.gameSnake.snakeSpriteSheet.draw({ row: 1, column: 4 }, cell);
     //   }
     // }
