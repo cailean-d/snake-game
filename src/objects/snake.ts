@@ -1,4 +1,4 @@
-import { GameObject, Point } from '/core/interfaces';
+import { GameObject, Point, Position } from '/core/interfaces';
 import { ObjectTypes, SnakeDirection } from '/game/interfaces';
 import { GameSnake } from '/game/gameSnake';
 import { CollisionDetection } from '/game/collision';
@@ -22,10 +22,7 @@ export class Snake implements GameObject<ObjectTypes> {
   public render() {
     this.updateTimer();
     this.checkCollision();
-    this.snakeTail.forEach((point, i) => {
-      const color = this.getColor(i);
-      this.drawCeil(point, color);
-    });
+    this.drawSnake();
   }
 
   public reset() {
@@ -142,5 +139,68 @@ export class Snake implements GameObject<ObjectTypes> {
     g.ctx.beginPath();
     g.ctx.arc(x, y, radius, start, end);
     g.ctx.fill();
+  }
+
+  private drawSnake() {
+    this.snakeTail.forEach((curr, i) => {
+      // const color = this.getColor(i);
+      // this.drawCeil(curr, color);
+      let tile: Position;
+
+      if (i === 0) {
+        tile = this.getTailTile(curr, i);
+      } else if (i === this.snakeTail.length - 1) {
+        tile = this.getHeadTile();
+      } else {
+        tile = this.getBodyTile(curr, i);
+      }
+
+      const cell = this.gameSnake.tileMap.getCell({ row: curr.y, column: curr.x });
+      this.gameSnake.snakeSpriteSheet.draw(tile, cell);
+    });
+  }
+
+  private getHeadTile(): Position {
+    switch(this.direction) {
+      case SnakeDirection.UP:
+        return { row: 0, column: 3 };
+      case SnakeDirection.RIGHT:
+        return { row: 0, column: 4 };
+      case SnakeDirection.DOWN:
+        return { row: 1, column: 4 };
+      case SnakeDirection.LEFT:
+        return { row: 1, column: 3 };
+    }
+  }
+
+  private getTailTile(curr: Point, i: number): Position {
+    const next = this.snakeTail[i + 1];
+    if (next.y < curr.y) {
+      return { row: 2, column: 3 };
+    } else if (next.x > curr.x) {
+      return { row: 2, column: 4 };
+    } else if (next.y > curr.y) {
+      return { row: 3, column: 4 };
+    } else if (next.x < curr.x) {
+      return { row: 3, column: 3 };
+    }
+  }
+
+  private getBodyTile(curr: Point, i: number): Position {
+    const next = this.snakeTail[i + 1];
+    const prev = this.snakeTail[i - 1];
+    if (next.x < curr.x && prev.x > curr.x || prev.x < curr.x && next.x > curr.x) {
+      return { row: 0, column: 1 };
+    } else if (next.x < curr.x && prev.y > curr.y || prev.x < curr.x && next.y > curr.y) {
+      return { row: 0, column: 2 };
+    } else if (next.y < curr.y && prev.y > curr.y || prev.y < curr.y && next.y > curr.y) {
+      return { row: 1, column: 2 };
+    } else if (next.y < curr.y && prev.x < curr.x || prev.y < curr.y && next.x < curr.x) {
+      return { row: 2, column: 2 };
+    } else if (next.x > curr.x && prev.y < curr.y || prev.x > curr.x && next.y < curr.y) {
+      return { row: 1, column: 0 };
+    } else if (next.y > curr.y && prev.x > curr.x || prev.y > curr.y && next.x > curr.x) {
+      return { row: 0, column: 0 };
+    }
   }
 }

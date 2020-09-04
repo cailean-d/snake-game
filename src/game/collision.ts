@@ -10,8 +10,8 @@ export class CollisionDetection {
     if (
       head.x <= -1 ||
       head.y <= -1 ||
-      head.x >= this.gameSnake.width / this.gameSnake.options.size ||
-      head.y >= this.gameSnake.height / this.gameSnake.options.size
+      head.x >= this.gameSnake.options.mapSize.width ||
+      head.y >= this.gameSnake.options.mapSize.height
     ) {
       return true;
     }

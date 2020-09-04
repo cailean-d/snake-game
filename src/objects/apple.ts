@@ -15,14 +15,17 @@ export class Apple implements GameObject<ObjectTypes> {
   }
 
   public render() {
-    // this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, this.position);
-    this.drawCeil(this.position, '#d21313');
-    for (let i = 0; i < this.gameSnake.options.mapSize.width; i++) {
-      for (let j = 0; j < this.gameSnake.options.mapSize.height; j++) {
-        const cell = this.gameSnake.tileMap.getCell({ row: j, column: i });
-        this.gameSnake.snakeSpriteSheet.draw({ row: 0, column: 3 }, cell);
-      }
-    }
+    // this.drawCeil(this.position, '#d21313');
+
+    // for (let i = 0; i < this.gameSnake.options.mapSize.width; i++) {
+    //   for (let j = 0; j < this.gameSnake.options.mapSize.height; j++) {
+    //     const cell = this.gameSnake.tileMap.getCell({ row: j, column: i });
+    //     console.log(cell)
+    //     this.gameSnake.snakeSpriteSheet.draw({ row: 1, column: 4 }, cell);
+    //   }
+    // }
+    const cell = this.gameSnake.tileMap.getCell({ row: this.position.y, column: this.position.x });
+    this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, cell);
   }
 
   public reset() {
@@ -33,9 +36,13 @@ export class Apple implements GameObject<ObjectTypes> {
     const g = this.gameSnake;
     let position: Point;
     do {
+      // position = {
+      //   x: Math.round((Math.random() * (g.width - g.options.size)) / g.options.size),
+      //   y: Math.round((Math.random() * (g.height - g.options.size)) / g.options.size),
+      // }
       position = {
-        x: Math.round((Math.random() * (g.width - g.options.size)) / g.options.size),
-        y: Math.round((Math.random() * (g.height - g.options.size)) / g.options.size),
+        x: Math.floor(Math.random() * this.gameSnake.options.mapSize.width),
+        y: Math.floor(Math.random() * this.gameSnake.options.mapSize.height),
       }
     } while(this.checkCollision(position));
     this.position = position;

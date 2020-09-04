@@ -30,8 +30,8 @@ export class TileMap<T> {
     const vSpace = this.game.canvas.height - cellHeight * this.mapSize.height;
 
     return {
-      x: pos.column * cellWidth + hSpace / 2,
-      y: pos.row * cellHeight + vSpace / 2,
+      x: Math.round(pos.column * cellWidth + hSpace / 2),
+      y: Math.round(pos.row * cellHeight + vSpace / 2),
       width: cellWidth,
       height: cellHeight,
     }

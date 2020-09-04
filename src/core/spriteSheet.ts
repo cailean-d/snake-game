@@ -11,17 +11,17 @@ export class SpriteSheet {
     this.tileSize = tileSize;
   }
 
-  draw(tilePosition: Position, tile: TileMapCell) {
+  draw(tile: Position, cell: TileMapCell) {
     this.ctx.drawImage(
       this.image,
-      tilePosition.column * this.tileSize.width,
-      tilePosition.row * this.tileSize.height,
+      tile.column * this.tileSize.width,
+      tile.row * this.tileSize.height,
       this.tileSize.width,
       this.tileSize.height,
-      tile.x, 
-      tile.y, 
-      tile.width, 
-      tile.height
+      cell.x, 
+      cell.y, 
+      cell.width, 
+      cell.height
     )
   }
 }
