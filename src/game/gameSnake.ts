@@ -1,6 +1,7 @@
 import { Game } from '/core/game';
 import { AssetLoader } from '/core/assetLoader';
 import { SpriteSheet } from '/core/spriteSheet';
+import { TileMap } from '/core/tileMap';
 import { KEY } from '/core/input';
 import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
@@ -12,6 +13,7 @@ import snakeTile from '/assets/snake-tiles.png';
 export class GameSnake {
   public options: GameOptions;
   public snakeSpriteSheet: SpriteSheet;
+  public tileMap: TileMap<ObjectTypes>;
   private assets: AssetLoaderItemsMap<SnakeGameAssets>;
   private assetLoader: AssetLoader<SnakeGameAssets>;
   private game: Game<ObjectTypes>;
@@ -45,7 +47,7 @@ export class GameSnake {
   }
 
   get defaultOptions(): GameOptions {
-    return { size: 15, snakeLength: 5, timeThreshold: 100 };
+    return { size: 15, snakeLength: 5, timeThreshold: 100, mapSize: { width: 30, height: 20 }};
   }
 
   constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
@@ -53,6 +55,7 @@ export class GameSnake {
     this.game = new Game<ObjectTypes>(canvas);
     this.assetLoader = new AssetLoader();
     this.snakeSpriteSheet = new SpriteSheet(this.ctx);
+    this.tileMap = new TileMap(this.game, this.options.mapSize);
     this.prepareAssets();
     this.addObjects();
     this.setInput();

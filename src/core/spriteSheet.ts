@@ -1,4 +1,4 @@
-import { Dimension, Position, Point } from './interfaces';
+import { Dimension, Position, TileMapCell } from './interfaces';
 
 export class SpriteSheet {
   private image: HTMLImageElement;
@@ -11,16 +11,17 @@ export class SpriteSheet {
     this.tileSize = tileSize;
   }
 
-  draw(tilePosition: Position, position: Point) {
+  draw(tilePosition: Position, tile: TileMapCell) {
     this.ctx.drawImage(
       this.image,
       tilePosition.column * this.tileSize.width,
       tilePosition.row * this.tileSize.height,
       this.tileSize.width,
       this.tileSize.height,
-      position.x * 15, position.y * 15, 
-      15, 
-      15
+      tile.x, 
+      tile.y, 
+      tile.width, 
+      tile.height
     )
   }
 }

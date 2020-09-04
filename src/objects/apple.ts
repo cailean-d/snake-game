@@ -15,8 +15,14 @@ export class Apple implements GameObject<ObjectTypes> {
   }
 
   public render() {
-    this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, this.position)
-    // this.drawCeil(this.position, '#d21313');
+    // this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, this.position);
+    this.drawCeil(this.position, '#d21313');
+    for (let i = 0; i < this.gameSnake.options.mapSize.width; i++) {
+      for (let j = 0; j < this.gameSnake.options.mapSize.height; j++) {
+        const cell = this.gameSnake.tileMap.getCell({ row: j, column: i });
+        this.gameSnake.snakeSpriteSheet.draw({ row: 0, column: 3 }, cell);
+      }
+    }
   }
 
   public reset() {
@@ -46,7 +52,6 @@ export class Apple implements GameObject<ObjectTypes> {
     const radius = g.options.size / 2;
     const start = 0;
     const end = 2 * Math.PI;
-    console.log(x, y, g.width, g.height)
     g.ctx.fillStyle = color;
     g.ctx.beginPath();
     g.ctx.arc(x, y, radius, start, end);
