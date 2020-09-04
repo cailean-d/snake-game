@@ -1,4 +1,4 @@
-import { KeyboardHandler, KeyboardParams } from './../interfaces';
+import { KeyboardHandler, KeyboardParams } from './interfaces';
 
 export class Input {
   constructor(private target: HTMLElement) {}

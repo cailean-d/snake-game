@@ -1,21 +1,20 @@
-import { Object, ObjectTypes, SnakeDirection, Point, GameOptions } from './../interfaces';
-import { GameSnake } from './../core/gameSnake';
-import { Apple } from './../objects/apple';
-import { Score } from './../objects/score';
-import { CollisionDetection } from './../core/collision';
+import { GameObject, Point } from '/core/interfaces';
+import { ObjectTypes, SnakeDirection } from '/game/interfaces';
+import { GameSnake } from '/game/gameSnake';
+import { CollisionDetection } from '/game/collision';
 
-export class Snake<T extends GameOptions> implements Object<T> {
+export class Snake implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public snakeTail: Point[];
   private direction: SnakeDirection;
   private timer: number;
   private timeThreshold: number;
   private minTimeThreshold: number;
-  private collision: CollisionDetection<GameOptions>;
+  private collision: CollisionDetection;
 
   constructor(private gameSnake: GameSnake) {
     this.type = ObjectTypes.SNAKE;
-    this.collision = new CollisionDetection(this.gameSnake.game);
+    this.collision = new CollisionDetection(this.gameSnake);
     this.minTimeThreshold = 20;
     this.reset();
   }
@@ -32,7 +31,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
   public reset() {
     this.direction = SnakeDirection.RIGHT;
     this.snakeTail = this.generateSnake();
-    this.timeThreshold = this.gameSnake.game.options.timeThreshold;
+    this.timeThreshold = this.gameSnake.options.timeThreshold;
     this.timer = 0;
   }
 
@@ -48,7 +47,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private generateSnake(): Point[] {
-    const g = this.gameSnake.game;
+    const g = this.gameSnake;
     return Array.from(Array(g.options.snakeLength).keys()).map(i => ({ x: i, y: 0 }));
   }
 
@@ -79,7 +78,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private updateTimer() {
-    this.timer += this.gameSnake.game.frameDelta;
+    this.timer += this.gameSnake.frameDelta;
   }
 
   private canMove(): boolean {
@@ -93,7 +92,7 @@ export class Snake<T extends GameOptions> implements Object<T> {
 
   private move(snakeGrow = false) {
     const head = this.snakeTail[this.snakeTail.length - 1];
-    const tail = snakeGrow ? window.Object.assign({}, head) : this.snakeTail.shift();
+    const tail = snakeGrow ? Object.assign({}, head) : this.snakeTail.shift();
     switch (this.direction) {
       case SnakeDirection.LEFT:
         tail.x = head.x - 1;
@@ -117,25 +116,23 @@ export class Snake<T extends GameOptions> implements Object<T> {
   }
 
   private generateNextApple() {
-    const apple = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.APPLE) as Apple<T>;
-    apple.generatePosition();
+    this.gameSnake.apple.generatePosition();
   }
 
   private updateScore() {
-    const score = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.SCORE) as Score<T>;
-    score.scoreUp(this.timeThreshold);
+    this.gameSnake.score.scoreUp(this.timeThreshold);
   }
 
   private updateSpeed() {
-    const score = this.gameSnake.game.objects.find(obj => obj.type === ObjectTypes.SCORE) as Score<T>;
-    const defaultThreshold = this.gameSnake.game.options.timeThreshold;
-    const percent = this.gameSnake.game.options.timeThreshold / 100;
+    const score = this.gameSnake.score;
+    const defaultThreshold = this.gameSnake.options.timeThreshold;
+    const percent = this.gameSnake.options.timeThreshold / 100;
     const scoreMidifier = score.defaultScore ? score.score / score.defaultScore : score.defaultScore;
     this.timeThreshold = Math.max(this.minTimeThreshold, defaultThreshold - percent * scoreMidifier);
   }
 
   private drawCeil(point: Point, color: string) {
-    const g = this.gameSnake.game;
+    const g = this.gameSnake;
     const x = point.x * g.options.size + g.options.size / 2;
     const y = point.y * g.options.size + g.options.size / 2;
     const radius = g.options.size / 2;

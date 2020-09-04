@@ -1,15 +1,16 @@
-import { Object, ObjectTypes, Point, GameOptions } from './../interfaces';
-import { GameSnake } from './../core/gameSnake';
-import { CollisionDetection } from './../core/collision';
+import { GameObject, Point } from '/core/interfaces';
+import { ObjectTypes} from '/game/interfaces';
+import { GameSnake } from '/game/gameSnake';
+import { CollisionDetection } from '/game/collision';
 
-export class Apple<T extends GameOptions> implements Object<T> {
+export class Apple implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public position: Point;
-  private collision: CollisionDetection<GameOptions>;
+  private collision: CollisionDetection;
 
   constructor(private gameSnake: GameSnake) {
     this.type = ObjectTypes.APPLE;
-    this.collision = new CollisionDetection(this.gameSnake.game);
+    this.collision = new CollisionDetection(this.gameSnake);
     this.generatePosition();
   }
 
@@ -22,12 +23,12 @@ export class Apple<T extends GameOptions> implements Object<T> {
   }
 
   public generatePosition() {
-    const g = this.gameSnake.game;
+    const g = this.gameSnake;
     let position: Point;
     do {
       position = {
-        x: Math.round((Math.random() * (g.canvas.width - g.options.size)) / g.options.size),
-        y: Math.round((Math.random() * (g.canvas.height - g.options.size)) / g.options.size),
+        x: Math.round((Math.random() * (g.width - g.options.size)) / g.options.size),
+        y: Math.round((Math.random() * (g.height - g.options.size)) / g.options.size),
       }
     } while(this.checkCollision(position));
     this.position = position;
@@ -38,7 +39,7 @@ export class Apple<T extends GameOptions> implements Object<T> {
   }
 
   private drawCeil(point: Point, color: string) {
-    const g = this.gameSnake.game;
+    const g = this.gameSnake;
     const x = point.x * g.options.size + g.options.size / 2;
     const y = point.y * g.options.size + g.options.size / 2;
     const radius = g.options.size / 2;

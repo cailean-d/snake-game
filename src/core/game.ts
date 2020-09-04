@@ -1,14 +1,14 @@
 import { Input } from './input';
-import { Object } from './../interfaces';
+import { GameObject } from './interfaces';
 
 export class Game<T> {
   public input: Input;
   public ctx: CanvasRenderingContext2D;
-  public objects: Object<T>[];
+  public objects: GameObject<T>[];
   public frameDelta: number;
   private lastTimestamp: number;
 
-  constructor(public canvas: HTMLCanvasElement, public options: T) {
+  constructor(public canvas: HTMLCanvasElement) {
     this.canvas.tabIndex = 0;
     this.input = new Input(document.body);
     this.ctx = this.canvas.getContext('2d');
@@ -22,7 +22,7 @@ export class Game<T> {
     this.render();
   }
 
-  public addObject(o: Object<T>) {
+  public addObject(o: GameObject<T>) {
     this.objects.push(o);
   }
 

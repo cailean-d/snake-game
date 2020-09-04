@@ -1,4 +1,4 @@
-import { AssetLoaderItems, AssetLoaderItemsMap } from './../interfaces';
+import { AssetLoaderItems, AssetLoaderItemsMap } from './interfaces';
 
 export class AssetLoader<T extends string> {
   private items: AssetLoaderItems[];
