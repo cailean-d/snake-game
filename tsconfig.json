@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
-      "typeRoots" : ["node_modules/@types", "src/types"]
-  }
+    "target": "es5",
+    "lib": ["dom", "es2017", "DOM.Iterable"],
+    "typeRoots" : ["node_modules/@types", "src/types"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

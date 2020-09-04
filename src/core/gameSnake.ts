@@ -5,13 +5,8 @@ import { Apple } from './../objects/apple';
 import { Snake } from './../objects/snake';
 import { Score } from './../objects/score';
 import snakeTile from './../assets/snake-tiles.png';
-import {
-  SnakeDirection,
-  GameOptions,
-  ObjectTypes,
-  SnakeGameAssets,
-  AssetLoaderItemsMap
-} from './../interfaces';
+import { SnakeDirection, GameOptions, ObjectTypes } from './../interfaces';
+import { SnakeGameAssets, AssetLoaderItemsMap } from './../interfaces';
 
 export class GameSnake {
   public game: Game<GameOptions>;
