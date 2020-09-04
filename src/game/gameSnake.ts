@@ -29,11 +29,11 @@ export class GameSnake {
   }
 
   get width() {
-    return parseInt(getComputedStyle(this.game.canvas).width);
+    return this.game.canvas.width;
   }
 
   get height() {
-    return parseInt(getComputedStyle(this.game.canvas).height);
+    return this.game.canvas.height;
   }
 
   get ctx() {

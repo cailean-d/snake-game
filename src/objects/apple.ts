@@ -46,6 +46,7 @@ export class Apple implements GameObject<ObjectTypes> {
     const radius = g.options.size / 2;
     const start = 0;
     const end = 2 * Math.PI;
+    console.log(x, y, g.width, g.height)
     g.ctx.fillStyle = color;
     g.ctx.beginPath();
     g.ctx.arc(x, y, radius, start, end);

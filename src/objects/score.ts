@@ -20,10 +20,11 @@ export class Score implements GameObject<ObjectTypes> {
     this.type = ObjectTypes.SCORE;
     this._score = 0;
     this._defaultScore = 5;
-    this.position = { x: 5, y: this.gameSnake.height - 5 };
+    this.updatePosition();
   }
   
   public render() {
+    this.updatePosition();
     this.drawText();
   }
 
@@ -42,4 +43,7 @@ export class Score implements GameObject<ObjectTypes> {
     g.ctx.fillText(`Score: ${this._score}`, this.position.x, this.position.y);
   }
 
+  private updatePosition() {
+    this.position = { x: 5, y: this.gameSnake.height - 5 };
+  }
 }

@@ -27,6 +27,7 @@ export class Game<T> {
   }
 
   private render(timestamp = 0) {
+    this.updateCanvasSize();
     this.clearCanvas();
     this.updateTime(timestamp);
     this.objects.forEach(obj => obj.render());
@@ -41,5 +42,10 @@ export class Game<T> {
   private updateTime(timestamp: number) {
     this.frameDelta = this.lastTimestamp > 0 ? timestamp - this.lastTimestamp : 0;
     this.lastTimestamp = timestamp;
+  }
+
+  private updateCanvasSize() {
+    this.canvas.height = parseInt(getComputedStyle(this.canvas).height);
+    this.canvas.width = parseInt(getComputedStyle(this.canvas).width);
   }
 }
