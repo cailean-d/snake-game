@@ -21,14 +21,7 @@ export class TileMap<T> {
     ) {
       cellWidth = Math.floor(this.game.canvas.width / this.mapSize.width);
       cellHeight = cellWidth;
-    } else if (
-      (canvasRatio > 1 && mapRatio < 1) ||
-      (canvasRatio > 1 && mapRatio > 1 && mapRatio < canvasRatio) ||
-      (canvasRatio < 1 && mapRatio < 1 && mapRatio < canvasRatio) || 
-      (canvasRatio > 1 && mapRatio === 1) ||
-      (canvasRatio === 1 && mapRatio < 1) || 
-      (canvasRatio === 1 && mapRatio === 1)
-    ) {
+    } else {
       cellHeight = Math.floor(this.game.canvas.height / this.mapSize.height);
       cellWidth = cellHeight;
     } 
