@@ -5,33 +5,36 @@ export class Input {
 
   onkeydown(handler: KeyboardHandler) {
     this.target.addEventListener('keydown', ({ shiftKey, ctrlKey, altKey, key }) => {
-      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key };
+      const KEY = key.toUpperCase();
+      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
     });
   }
 
   onkeyup(handler: KeyboardHandler) {
     this.target.addEventListener('keyup', ({ shiftKey, ctrlKey, altKey, key }) => {
-      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key };
+      const KEY = key.toUpperCase();
+      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
     });
   }
 
   onkeypress(handler: KeyboardHandler) {
     this.target.addEventListener('keypress', ({ shiftKey, ctrlKey, altKey, key }) => {
-      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key };
+      const KEY = key.toUpperCase();
+      const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
     });
   }
 }
 
 export enum KEY {
-  ESC = 'Escape',
-  ENTER = 'Enter',
+  ESC = 'ESCAPE',
+  ENTER = 'ENTER',
   SPACE = ' ',
-  SHIFT = 'Shift',
-  CTRL = 'Control',
-  ALT = 'Alt',
+  SHIFT = 'SHIFT',
+  CTRL = 'CONTROL',
+  ALT = 'AAL',
   NUM_1 = '1',
   NUM_2 = '2',
   NUM_3 = '3',
@@ -68,8 +71,8 @@ export enum KEY {
   B = 'B',
   N = 'N',
   M = 'M',
-  ARROW_LEFT = 'ArrowLeft',
-  ARROW_UP = 'ArrowUp',
-  ARROW_RIGHT = 'ArrowRight',
-  ARROW_DOWN = 'ArrowDown',
+  ARROW_LEFT = 'ARROWLEFT',
+  ARROW_UP = 'ARROWUP',
+  ARROW_RIGHT = 'ARROWRIGHT',
+  ARROW_DOWN = 'ARROWDOWN',
 }

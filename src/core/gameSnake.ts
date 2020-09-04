@@ -44,15 +44,19 @@ export class GameSnake {
     this.game.input.onkeydown(params => {
       switch(params.key) {
         case KEY.ARROW_LEFT:
+        case KEY.A:
           snake.turn(SnakeDirection.LEFT);
           break;
         case KEY.ARROW_UP:
+        case KEY.W:
           snake.turn(SnakeDirection.UP);
           break;
         case KEY.ARROW_RIGHT:
+        case KEY.D:
           snake.turn(SnakeDirection.RIGHT);
           break;
         case KEY.ARROW_DOWN:
+        case KEY.S:
           snake.turn(SnakeDirection.DOWN);
           break;
       }
