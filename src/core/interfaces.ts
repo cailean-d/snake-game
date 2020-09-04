@@ -23,4 +23,14 @@ export interface AssetLoaderItems {
   url: string;
 }
 
+export interface Dimension {
+  width: number;
+  height: number;
+}
+
+export interface Position {
+  row: number;
+  column: number;
+}
+
 export type AssetLoaderItemsMap<T extends string> = Partial<Record<T, HTMLImageElement>>;

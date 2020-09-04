@@ -1,16 +1,18 @@
 import { Game } from '/core/game';
 import { AssetLoader } from '/core/assetLoader';
+import { SpriteSheet } from '/core/spriteSheet';
 import { KEY } from '/core/input';
 import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
 import { Score } from '/objects/score';
-import { AssetLoaderItemsMap } from '/core/interfaces';
+import { AssetLoaderItemsMap, Dimension } from '/core/interfaces';
 import { SnakeDirection, GameOptions, ObjectTypes, SnakeGameAssets } from '/game/interfaces';
 import snakeTile from '/assets/snake-tiles.png';
 
 export class GameSnake {
-  public assets: AssetLoaderItemsMap<SnakeGameAssets>;
   public options: GameOptions;
+  public snakeSpriteSheet: SpriteSheet;
+  private assets: AssetLoaderItemsMap<SnakeGameAssets>;
   private assetLoader: AssetLoader<SnakeGameAssets>;
   private game: Game<ObjectTypes>;
 
@@ -50,6 +52,7 @@ export class GameSnake {
     this.mergeOptions(options);
     this.game = new Game<ObjectTypes>(canvas);
     this.assetLoader = new AssetLoader();
+    this.snakeSpriteSheet = new SpriteSheet(this.ctx);
     this.prepareAssets();
     this.addObjects();
     this.setInput();
@@ -57,6 +60,7 @@ export class GameSnake {
 
   public async start() {
     this.assets = await this.assetLoader.load();
+    this.loadSpriteSheets();
     this.game.start();
   }
 
@@ -78,6 +82,11 @@ export class GameSnake {
 
   private prepareAssets() {
     this.assetLoader.add('snakeTile', snakeTile);
+  }
+
+  private loadSpriteSheets() {
+    const tileSize: Dimension = { width: 64, height: 64 };
+    this.snakeSpriteSheet.loadTileSet(this.assets.snakeTile, tileSize);
   }
 
   private setInput() {

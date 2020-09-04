@@ -15,7 +15,8 @@ export class Apple implements GameObject<ObjectTypes> {
   }
 
   public render() {
-    this.drawCeil(this.position, '#d21313');
+    this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, this.position)
+    // this.drawCeil(this.position, '#d21313');
   }
 
   public reset() {
