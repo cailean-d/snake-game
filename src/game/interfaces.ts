@@ -2,10 +2,10 @@ import { Sprite } from '/core/sprite';
 import { Dimension } from '/core/interfaces';
 
 export enum ObjectTypes {
-  SNAKE,
-  APPLE,
-  SCORE,
-  BACKGROUND
+  SNAKE = 'SNAKE',
+  APPLE = 'APPLE',
+  SCORE = 'SCORE',
+  BACKGROUND = 'BACKGROUND'
 }
 
 export enum SnakeDirection {

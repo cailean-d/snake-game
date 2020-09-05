@@ -3,11 +3,11 @@ import { Input } from '/core/input';
 import { KEY } from '/core/input';
 import { TileMap } from '/core/tileMap';
 import { SnakeGame } from '/game/snakeGame';
-import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
-import { Score } from '/objects/score';
-import { Background } from '/objects/background';
 import { ObjectTypes, SnakeDirection } from '/game/interfaces';
+import { GameLayer } from '/layers/gameLayer';
+import { BackgroundLayer } from '/layers/backgroundLayer';
+import { InterfaceLayer } from '/layers/interfaceLayer';
 
 export class GameScene extends Scene<ObjectTypes> {
   public tileMap: TileMap<ObjectTypes>;
@@ -22,10 +22,9 @@ export class GameScene extends Scene<ObjectTypes> {
   }
 
   private addObjects() {
-    this.addObject(new Background(this.game, this));
-    this.addObject(new Apple(this.game, this));
-    this.addObject(new Snake(this.game, this));
-    this.addObject(new Score(this.game, this));
+    this.addObject(new BackgroundLayer(this.game, this));
+    this.addObject(new GameLayer(this.game, this));
+    this.addObject(new InterfaceLayer(this.game, this));
   }
 
   private setInput() {

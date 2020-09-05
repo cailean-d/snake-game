@@ -1,9 +1,9 @@
 import { Scene } from './scene';
 
 export abstract class Game<T> {
-  private _frameDelta: number;
-  private _lastTimestamp: number;
-  private _scene: Scene<T>;
+  protected _frameDelta: number;
+  protected _lastTimestamp: number;
+  protected _scene: Scene<T>;
 
   get width() {
     return this.canvas.width;

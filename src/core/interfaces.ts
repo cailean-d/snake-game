@@ -30,3 +30,7 @@ export interface Position {
 export interface TileMapCell extends Point, Dimension {}
 
 export type AssetLoaderItemsMap<T extends string> = Partial<Record<T, HTMLImageElement>>;
+
+export type CoreObject<T> = CoreObjectTypes | T
+
+export enum CoreObjectTypes { LAYER = 'LAYER' }

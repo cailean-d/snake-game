@@ -1,23 +1,23 @@
-import { Game } from './game';
 import { GameObject } from '/core/gameObject';
+import { Scene } from '/core/scene';
+import { Game } from '/core/game';
 import { CoreObjectTypes } from '/core/interfaces';
-import { Layer } from '/core/layer';
 
-export abstract class Scene<T> {
-  public isPaused: boolean;
+export abstract class Layer<T> extends GameObject<T> {
   protected objects: GameObject<T>[];
 
-  constructor(public game: Game<T>) {
+  constructor(protected game: Game<T>, protected scene: Scene<T>) {
+    super();
+    this.type = CoreObjectTypes.LAYER;
     this.objects = [];
-    this.isPaused = false;
   }
-
+  
   public getObject(type: T) {
     for (const o of this.objects) {
       const layer = o as Layer<T>;
       const layerType = CoreObjectTypes.LAYER;
       const obj = o.type === layerType ? layer.getObject(type) : o;
-      if (obj?.type === type) return obj;
+      if (obj.type === type) return obj;
     }
   }
 
@@ -25,14 +25,11 @@ export abstract class Scene<T> {
     this.objects.push(o);
   }
 
-  public render() {
-    this.clearCanvas();
-    if (!this.isPaused) this.objects.forEach(obj => obj.calculate());
-    this.objects.forEach(obj => obj.render());
+  public calculate() {
+    if (!this.scene.isPaused) this.objects.forEach(obj => obj.calculate());
   }
-  
-  private clearCanvas() {
-    this.game.ctx.fillStyle = "#fff";
-    this.game.ctx.fillRect(0, 0, this.game.width, this.game.height);
+
+  public render() {
+    this.objects.forEach(obj => obj.render());
   }
 }

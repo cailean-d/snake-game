@@ -23,7 +23,6 @@ export class Apple extends GameObject<ObjectTypes> {
   }
 
   public generatePosition() {
-    randomInt(1, this.game.options.mapSize.width - 1)
     let position: Point;
     do {
       position = {

@@ -45,7 +45,9 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   public turn(direction: SnakeDirection) {
-    this.nextDirection = direction;
+    if (!this.scene.isPaused) {
+      this.nextDirection = direction;
+    }
   }
 
   private tryTurn() {
