@@ -164,7 +164,9 @@ export class Snake implements GameObject<ObjectTypes> {
       }
 
       const cell = this.gameSnake.tileMap.getCell({ row: curr.y, column: curr.x });
-      this.gameSnake.snakeSpriteSheet.draw(tile, cell);
+      const sprite = this.gameSnake.snakeSpriteSheet.getSprite(tile);
+      this.gameSnake.ctx.drawImage(sprite.buffer, cell.x, cell.y, cell.width, cell.height);
+      // this.gameSnake.snakeSpriteSheet.draw(tile, cell);
     });
   }
 

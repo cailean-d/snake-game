@@ -54,7 +54,7 @@ export class GameSnake {
     this.mergeOptions(options);
     this.game = new Game<ObjectTypes>(canvas);
     this.assetLoader = new AssetLoader();
-    this.snakeSpriteSheet = new SpriteSheet(this.ctx);
+    this.snakeSpriteSheet = new SpriteSheet();
     this.tileMap = new TileMap(this.game, this.options.mapSize);
     this.prepareAssets();
     this.addObjects();

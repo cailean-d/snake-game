@@ -23,8 +23,11 @@ export class Apple implements GameObject<ObjectTypes> {
     //     this.gameSnake.snakeSpriteSheet.draw({ row: 1, column: 4 }, cell);
     //   }
     // }
+    const tilePosition = { row: 3, column: 0 };
     const cell = this.gameSnake.tileMap.getCell({ row: this.position.y, column: this.position.x });
-    this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, cell);
+    const sprite = this.gameSnake.snakeSpriteSheet.getSprite(tilePosition);
+    this.gameSnake.ctx.drawImage(sprite.buffer, cell.x, cell.y, cell.width, cell.height);
+    // this.gameSnake.snakeSpriteSheet.draw({ row: 3, column: 0 }, cell);
   }
 
   public reset() {
