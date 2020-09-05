@@ -1,6 +1,7 @@
 import { GameObject, Point } from '/core/interfaces';
 import { ObjectTypes } from '/game/interfaces';
-import { GameSnake } from '/game/gameSnake';
+import { SnakeGame } from '/game/snakeGame';
+import { GameScene } from '/game/gameScene';
 
 export class Score implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -16,7 +17,7 @@ export class Score implements GameObject<ObjectTypes> {
     return this._defaultScore;
   }
 
-  constructor(private gameSnake: GameSnake) {
+  constructor(private game: SnakeGame, private scene: GameScene) {
     this.type = ObjectTypes.SCORE;
     this._score = 0;
     this._defaultScore = 5;
@@ -28,22 +29,18 @@ export class Score implements GameObject<ObjectTypes> {
     this.drawText();
   }
 
-  public reset() {
-    this._score = 0;
-  }
-
   public scoreUp(currentThreshold: number) {
-    const defaultThreshold = this.gameSnake.options.timeThreshold;
+    const defaultThreshold = this.game.options.timeThreshold;
     this._score += Math.round(defaultThreshold * this._defaultScore / currentThreshold);
   }
 
   private drawText() {
-    const g = this.gameSnake;
+    const g = this.game;
     g.ctx.fillStyle = '#000';
     g.ctx.fillText(`Score: ${this._score}`, this.position.x, this.position.y);
   }
 
   private updatePosition() {
-    this.position = { x: 5, y: this.gameSnake.height - 5 };
+    this.position = { x: 5, y: this.game.height - 5 };
   }
 }

@@ -10,7 +10,6 @@ export interface KeyboardParams {
 export interface GameObject<T> {
   type: T;
   render(): void;
-  reset(): void;
 }
 
 export interface Point {

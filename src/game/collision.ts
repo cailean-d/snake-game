@@ -1,25 +1,29 @@
+import { GameScene } from '/game/gameScene';
+import { SnakeGame } from '/game/snakeGame';
+import { Apple } from '/objects/apple';
+import { Snake } from '/objects/snake';
 import { Point } from '/core/interfaces';
-import { GameSnake } from '/game/gameSnake';
+import { ObjectTypes } from '/game/interfaces';
 
 export class CollisionDetection {
-  constructor(private gameSnake: GameSnake) {}
+  constructor(private game: SnakeGame) {}
 
-  withWalls() {
-    const snake = this.gameSnake.snake;
+  withWalls(scene: GameScene) {
+    const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (
-      head.x <= -1 ||
-      head.y <= -1 ||
-      head.x >= this.gameSnake.options.mapSize.width ||
-      head.y >= this.gameSnake.options.mapSize.height
+      head.x <= 0 ||
+      head.y <= 0 ||
+      head.x >= this.game.options.mapSize.width - 1 ||
+      head.y >= this.game.options.mapSize.height - 1
     ) {
       return true;
     }
     return false;
   }
 
-  withTail() {
-    const snake = this.gameSnake.snake;
+  withTail(scene: GameScene) {
+    const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     const tail = snake.snakeTail.slice(0, -1);
     for (const point of tail) {
@@ -30,9 +34,9 @@ export class CollisionDetection {
     return false;
   }
 
-  withApple() {
-    const snake = this.gameSnake.snake;
-    const apple = this.gameSnake.apple;
+  withApple(scene: GameScene) {
+    const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
+    const apple = scene.getObject(ObjectTypes.APPLE) as Apple;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (head.x === apple.position.x && head.y === apple.position.y) {
       return true;
@@ -40,8 +44,8 @@ export class CollisionDetection {
     return false;
   }
 
-  withPoint(point: Point) {
-    const snake = this.gameSnake.snake;
+  withPoint(scene: GameScene, point: Point) {
+    const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     if (!snake) return false;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (head.x === point.x && head.y === point.y) {

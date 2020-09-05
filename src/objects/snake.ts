@@ -1,7 +1,10 @@
-import { GameObject, Point, Position } from '/core/interfaces';
-import { ObjectTypes, SnakeDirection } from '/game/interfaces';
-import { GameSnake } from '/game/gameSnake';
-import { CollisionDetection } from '/game/collision';
+import { SnakeGame } from '/game/snakeGame';
+import { GameScene } from '/game/gameScene';
+import { Apple } from '/objects/apple';
+import { Score } from '/objects/score';
+import { GameObject, Point } from '/core/interfaces';
+import { ObjectTypes, SnakeDirection, SnakeSprites } from '/game/interfaces';
+import { Sprite } from '/core/sprite';
 
 export class Snake implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -11,27 +14,23 @@ export class Snake implements GameObject<ObjectTypes> {
   private timer: number;
   private timeThreshold: number;
   private minTimeThreshold: number;
-  private collision: CollisionDetection;
+  private sprites: SnakeSprites;
 
-  constructor(private gameSnake: GameSnake) {
+  constructor(private game: SnakeGame, private scene: GameScene) {
     this.type = ObjectTypes.SNAKE;
-    this.collision = new CollisionDetection(this.gameSnake);
     this.minTimeThreshold = 20;
-    this.reset();
+    this.direction = SnakeDirection.RIGHT;
+    this.nextDirection = SnakeDirection.RIGHT;
+    this.snakeTail = this.generateSnake();
+    this.timeThreshold = this.game.options.timeThreshold;
+    this.timer = 0;
+    this.loadSprites();
   }
 
   public render() {
     this.updateTimer();
     this.checkCollision();
     this.drawSnake();
-  }
-
-  public reset() {
-    this.direction = SnakeDirection.RIGHT;
-    this.nextDirection = SnakeDirection.RIGHT;
-    this.snakeTail = this.generateSnake();
-    this.timeThreshold = this.gameSnake.options.timeThreshold;
-    this.timer = 0;
   }
 
   public turn(direction: SnakeDirection) {
@@ -50,14 +49,14 @@ export class Snake implements GameObject<ObjectTypes> {
   }
 
   private generateSnake(): Point[] {
-    const g = this.gameSnake;
-    return Array.from(Array(g.options.snakeLength).keys()).map(i => ({ x: i, y: 0 }));
+    const g = this.game;
+    return Array.from(Array(g.options.snakeLength).keys()).map(i => ({ x: i, y: 1 }));
   }
 
   private checkCollision() {
     if (this.canMove()) {
       this.tryTurn();
-      if (this.collision.withApple()) {
+      if (this.game.collision.withApple(this.scene)) {
         this.move(true);
         this.generateNextApple();
         this.updateScore();
@@ -65,25 +64,16 @@ export class Snake implements GameObject<ObjectTypes> {
         return;
       }
       this.move();
-      if (this.collision.withWalls()) {
-        this.gameSnake.restart();
-      } else if (this.collision.withTail()) {
-        this.gameSnake.restart();
+      if (this.game.collision.withWalls(this.scene)) {
+        this.game.restart();
+      } else if (this.game.collision.withTail(this.scene)) {
+        this.game.restart();
       } 
     }
   }
 
-  private getColor(i: number) {
-    const last = this.snakeTail.length - 1;
-    if (i === last) {
-      return '#00ff00';
-    } else {
-      return '#aaaaaa';
-    }
-  }
-
   private updateTimer() {
-    this.timer += this.gameSnake.frameDelta;
+    this.timer += this.game.frameDelta;
   }
 
   private canMove(): boolean {
@@ -121,40 +111,26 @@ export class Snake implements GameObject<ObjectTypes> {
   }
 
   private generateNextApple() {
-    this.gameSnake.apple.generatePosition();
+    const apple = this.scene.getObject(ObjectTypes.APPLE) as Apple;
+    apple.generatePosition();
   }
 
   private updateScore() {
-    this.gameSnake.score.scoreUp(this.timeThreshold);
+    const score = this.scene.getObject(ObjectTypes.SCORE) as Score;
+    score.scoreUp(this.timeThreshold);
   }
 
   private updateSpeed() {
-    const score = this.gameSnake.score;
-    const defaultThreshold = this.gameSnake.options.timeThreshold;
-    const percent = this.gameSnake.options.timeThreshold / 100;
+    const score = this.scene.getObject(ObjectTypes.SCORE) as Score;
+    const defaultThreshold = this.game.options.timeThreshold;
+    const percent = this.game.options.timeThreshold / 100;
     const scoreMidifier = score.defaultScore ? score.score / score.defaultScore : score.defaultScore;
     this.timeThreshold = Math.max(this.minTimeThreshold, defaultThreshold - percent * scoreMidifier);
   }
 
-  private drawCeil(point: Point, color: string) {
-    const g = this.gameSnake;
-    const x = point.x * g.options.size + g.options.size / 2;
-    const y = point.y * g.options.size + g.options.size / 2;
-    const radius = g.options.size / 2;
-    const start = 0;
-    const end = 2 * Math.PI;
-    g.ctx.fillStyle = color;
-    g.ctx.beginPath();
-    g.ctx.arc(x, y, radius, start, end);
-    g.ctx.fill();
-  }
-
   private drawSnake() {
     this.snakeTail.forEach((curr, i) => {
-      // const color = this.getColor(i);
-      // this.drawCeil(curr, color);
-      let tile: Position;
-
+      let tile: Sprite;
       if (i === 0) {
         tile = this.getTailTile(curr, i);
       } else if (i === this.snakeTail.length - 1) {
@@ -162,55 +138,70 @@ export class Snake implements GameObject<ObjectTypes> {
       } else {
         tile = this.getBodyTile(curr, i);
       }
-
-      const cell = this.gameSnake.tileMap.getCell({ row: curr.y, column: curr.x });
-      const sprite = this.gameSnake.snakeSpriteSheet.getSprite(tile);
-      this.gameSnake.ctx.drawImage(sprite.buffer, cell.x, cell.y, cell.width, cell.height);
-      // this.gameSnake.snakeSpriteSheet.draw(tile, cell);
+      this.scene.tileMap.drawSprite(tile, curr);
     });
   }
 
-  private getHeadTile(): Position {
+  private getHeadTile(): Sprite {
     switch(this.direction) {
       case SnakeDirection.UP:
-        return { row: 0, column: 3 };
+        return this.sprites.headUp;
       case SnakeDirection.RIGHT:
-        return { row: 0, column: 4 };
+        return this.sprites.headRight;
       case SnakeDirection.DOWN:
-        return { row: 1, column: 4 };
+        return this.sprites.headDown;
       case SnakeDirection.LEFT:
-        return { row: 1, column: 3 };
+        return this.sprites.headLeft;
     }
   }
 
-  private getTailTile(curr: Point, i: number): Position {
+  private getTailTile(curr: Point, i: number): Sprite {
     const next = this.snakeTail[i + 1];
     if (next.y < curr.y) {
-      return { row: 2, column: 3 };
+      return this.sprites.tailUp;
     } else if (next.x > curr.x) {
-      return { row: 2, column: 4 };
+      return this.sprites.tailRight;
     } else if (next.y > curr.y) {
-      return { row: 3, column: 4 };
+      return this.sprites.tailDown;
     } else if (next.x < curr.x) {
-      return { row: 3, column: 3 };
+      return this.sprites.tailLeft;
     }
   }
 
-  private getBodyTile(curr: Point, i: number): Position {
+  private getBodyTile(curr: Point, i: number): Sprite {
     const next = this.snakeTail[i + 1];
     const prev = this.snakeTail[i - 1];
     if (next.x < curr.x && prev.x > curr.x || prev.x < curr.x && next.x > curr.x) {
-      return { row: 0, column: 1 };
+      return this.sprites.horizontalLeftRight;
     } else if (next.x < curr.x && prev.y > curr.y || prev.x < curr.x && next.y > curr.y) {
-      return { row: 0, column: 2 };
+      return this.sprites.angleLeftDown;
     } else if (next.y < curr.y && prev.y > curr.y || prev.y < curr.y && next.y > curr.y) {
-      return { row: 1, column: 2 };
+      return this.sprites.verticalUpDown;
     } else if (next.y < curr.y && prev.x < curr.x || prev.y < curr.y && next.x < curr.x) {
-      return { row: 2, column: 2 };
+      return this.sprites.angleTopLeft;
     } else if (next.x > curr.x && prev.y < curr.y || prev.x > curr.x && next.y < curr.y) {
-      return { row: 1, column: 0 };
+      return this.sprites.angleRightUp;
     } else if (next.y > curr.y && prev.x > curr.x || prev.y > curr.y && next.x > curr.x) {
-      return { row: 0, column: 0 };
+      return this.sprites.angleDownRight;
+    }
+  }
+
+  private loadSprites() {
+    this.sprites = {
+      headUp: this.game.snakeSpriteSheet.getSprite({ row: 0, column: 3 }),
+      headRight: this.game.snakeSpriteSheet.getSprite({ row: 0, column: 4 }),
+      headDown: this.game.snakeSpriteSheet.getSprite({ row: 1, column: 4 }),
+      headLeft: this.game.snakeSpriteSheet.getSprite({ row: 1, column: 3 }),
+      tailUp: this.game.snakeSpriteSheet.getSprite({ row: 2, column: 3 }),
+      tailRight: this.game.snakeSpriteSheet.getSprite({ row: 2, column: 4 }),
+      tailDown: this.game.snakeSpriteSheet.getSprite({ row: 3, column: 4 }),
+      tailLeft: this.game.snakeSpriteSheet.getSprite({ row: 3, column: 3 }),
+      horizontalLeftRight: this.game.snakeSpriteSheet.getSprite({ row: 0, column: 1 }),
+      verticalUpDown: this.game.snakeSpriteSheet.getSprite({ row: 1, column: 2 }),
+      angleDownRight: this.game.snakeSpriteSheet.getSprite({ row: 0, column: 0 }),
+      angleLeftDown: this.game.snakeSpriteSheet.getSprite({ row: 0, column: 2 }),
+      angleRightUp: this.game.snakeSpriteSheet.getSprite({ row: 1, column: 0 }),
+      angleTopLeft: this.game.snakeSpriteSheet.getSprite({ row: 2, column: 2 }),
     }
   }
 }

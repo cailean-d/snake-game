@@ -1,51 +1,53 @@
-import { Input } from './input';
-import { GameObject } from './interfaces';
+import { Scene } from './scene';
 
-export class Game<T> {
-  public input: Input;
-  public ctx: CanvasRenderingContext2D;
-  public objects: GameObject<T>[];
-  public frameDelta: number;
-  private lastTimestamp: number;
+export abstract class Game<T> {
+  private _frameDelta: number;
+  private _lastTimestamp: number;
+  private _scene: Scene<T>;
 
-  constructor(public canvas: HTMLCanvasElement) {
-    this.canvas.tabIndex = 0;
-    this.input = new Input(document.body);
-    this.ctx = this.canvas.getContext('2d');
-    this.objects = [];
-    this.frameDelta = 0;
-    this.lastTimestamp = 0;
+  get width() {
+    return this.canvas.width;
   }
 
-  public start() {
+  get height() {
+    return this.canvas.height;
+  }
+
+  get ctx() {
+    return this.canvas.getContext('2d');
+  }
+
+  get frameDelta() {
+    return this._frameDelta;
+  }
+
+  constructor(protected canvas: HTMLCanvasElement) {
+    this.canvas.tabIndex = 0;
+    this._frameDelta = 0;
+    this._lastTimestamp = 0;
+  }
+
+  setScene(scene: Scene<T>) {
+    this._scene = scene;
+  }
+
+  start() {
     this.canvas.focus();
     this.render();
   }
 
-  public addObject(o: GameObject<T>) {
-    this.objects.push(o);
-  }
-
   private render(timestamp = 0) {
-    this.updateCanvasSize();
-    this.clearCanvas();
-    this.updateTime(timestamp);
-    this.objects.forEach(obj => obj.render());
+    this.tick(timestamp);
     requestAnimationFrame(t => this.render(t));
   }
   
-  private clearCanvas() {
-    this.ctx.fillStyle = "#fff";
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  protected tick(timestamp: number) {
+    this.updateTime(timestamp);
+    if (this._scene) this._scene.render();
   }
 
   private updateTime(timestamp: number) {
-    this.frameDelta = this.lastTimestamp > 0 ? timestamp - this.lastTimestamp : 0;
-    this.lastTimestamp = timestamp;
-  }
-
-  private updateCanvasSize() {
-    this.canvas.height = parseInt(getComputedStyle(this.canvas).height);
-    this.canvas.width = parseInt(getComputedStyle(this.canvas).width);
+    this._frameDelta = this._lastTimestamp > 0 ? timestamp - this._lastTimestamp : 0;
+    this._lastTimestamp = timestamp;
   }
 }
