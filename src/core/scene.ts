@@ -1,11 +1,13 @@
 import { Game } from './game';
-import { GameObject } from './interfaces';
+import { GameObject } from '/core/gameObject';
 
 export abstract class Scene<T> {
+  public isPaused: boolean;
   private objects: GameObject<T>[];
 
   constructor(public game: Game<T>) {
     this.objects = [];
+    this.isPaused = false;
   }
 
   public getObject(type: T) {
@@ -18,6 +20,7 @@ export abstract class Scene<T> {
 
   public render() {
     this.clearCanvas();
+    if (!this.isPaused) this.objects.forEach(obj => obj.calculate());
     this.objects.forEach(obj => obj.render());
   }
   

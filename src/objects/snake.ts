@@ -2,12 +2,13 @@ import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/game/gameScene';
 import { Apple } from '/objects/apple';
 import { Score } from '/objects/score';
-import { GameObject, Point } from '/core/interfaces';
+import { Point } from '/core/interfaces';
+import { GameObject } from '/core/gameObject';
 import { ObjectTypes, SnakeDirection, SnakeSprites } from '/game/interfaces';
 import { Sprite } from '/core/sprite';
 import { range } from '/game/utils';
 
-export class Snake implements GameObject<ObjectTypes> {
+export class Snake extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public snakeTail: Point[];
   private direction: SnakeDirection;
@@ -19,6 +20,7 @@ export class Snake implements GameObject<ObjectTypes> {
   private isDead: boolean;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
+    super();
     this.type = ObjectTypes.SNAKE;
     this.minTimeThreshold = 20;
     this.direction = SnakeDirection.RIGHT;
@@ -29,9 +31,14 @@ export class Snake implements GameObject<ObjectTypes> {
     this.loadSprites();
   }
 
+  public calculate() {
+    if(!this.scene.isPaused) {
+      this.updateTimer();
+      this.checkCollision();
+    }
+  }
+
   public render() {
-    this.updateTimer();
-    this.checkCollision();
     if (!this.isDead) {
       this.drawSnake();
     }

@@ -48,6 +48,9 @@ export class GameScene extends Scene<ObjectTypes> {
         case KEY.S:
           snake.turn(SnakeDirection.DOWN);
           break;
+        case KEY.SPACE:
+          this.isPaused = !this.isPaused;
+          break;
       }
     });
   }

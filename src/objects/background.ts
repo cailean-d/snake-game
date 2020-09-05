@@ -1,15 +1,16 @@
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/game/gameScene';
-import { GameObject } from '/core/interfaces';
+import { GameObject } from '/core/gameObject';
 import { ObjectTypes } from '/game/interfaces';
 import { range } from '/game/utils';
 
-export class Background implements GameObject<ObjectTypes> {
+export class Background extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
   private wallColor: string;
   private groundColor: string;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
+    super();
     this.type = ObjectTypes.BACKGROUND;
     this.wallColor = '#bcae76';
     this.groundColor = '#f7e697';

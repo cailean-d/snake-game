@@ -1,16 +1,18 @@
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/game/gameScene';
-import { GameObject, Point } from '/core/interfaces';
+import { GameObject } from '/core/gameObject';
+import { Point } from '/core/interfaces';
 import { ObjectTypes, AppleSprites } from '/game/interfaces';
 import { randomInt } from '/game/utils';
 import { Snake } from '/objects/snake';
 
-export class Apple implements GameObject<ObjectTypes> {
+export class Apple extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public position: Point;
   private sprites: AppleSprites;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
+    super();
     this.type = ObjectTypes.APPLE;
     this.generatePosition();
     this.loadSprites();

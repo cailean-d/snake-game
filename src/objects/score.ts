@@ -1,9 +1,10 @@
-import { GameObject, Point } from '/core/interfaces';
+import { Point } from '/core/interfaces';
+import { GameObject } from '/core/gameObject';
 import { ObjectTypes } from '/game/interfaces';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/game/gameScene';
 
-export class Score implements GameObject<ObjectTypes> {
+export class Score extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
   private _score: number;
   private _defaultScore: number;
@@ -18,6 +19,7 @@ export class Score implements GameObject<ObjectTypes> {
   }
 
   constructor(private game: SnakeGame, private scene: GameScene) {
+    super();
     this.type = ObjectTypes.SCORE;
     this._score = 0;
     this._defaultScore = 5;

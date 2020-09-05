@@ -7,11 +7,6 @@ export interface KeyboardParams {
   key: string;
 }
 
-export interface GameObject<T> {
-  type: T;
-  render(): void;
-}
-
 export interface Point {
   x: number;
   y: number;
