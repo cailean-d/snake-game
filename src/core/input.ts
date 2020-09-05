@@ -4,27 +4,27 @@ export class Input {
   constructor(private target: HTMLElement) {}
 
   onkeydown(handler: KeyboardHandler) {
-    this.target.addEventListener('keydown', ({ shiftKey, ctrlKey, altKey, key }) => {
+    this.target.onkeydown = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
-    });
+    }
   }
 
   onkeyup(handler: KeyboardHandler) {
-    this.target.addEventListener('keyup', ({ shiftKey, ctrlKey, altKey, key }) => {
+    this.target.onkeyup = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
-    });
+    }
   }
 
   onkeypress(handler: KeyboardHandler) {
-    this.target.addEventListener('keypress', ({ shiftKey, ctrlKey, altKey, key }) => {
+    this.target.onkeypress = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
       handler(params);
-    });
+    }
   }
 }
 
