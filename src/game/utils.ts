@@ -18,3 +18,7 @@ export function objectFitSide(parentRatio: number, childRatio = 16 / 9): ObjectF
 export function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+export function range(start: number, end: number) {
+  return Array.from(new Array(end - start), (_, i) => i + start);
+}

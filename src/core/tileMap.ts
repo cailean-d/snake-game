@@ -12,7 +12,13 @@ export class TileMap<T> {
     this.game.ctx.drawImage(sprite.buffer, cell.x, cell.y, cell.width, cell.height);
   }
 
-  public getCell(pos: Point): TileMapCell {
+  public fill(color: string, position: Point) {
+    const cell = this.getCell(position);
+    this.game.ctx.fillStyle = color;
+    this.game.ctx.fillRect(cell.x, cell.y, cell.width, cell.height);
+  }
+
+  private getCell(pos: Point): TileMapCell {
     const canvasRatio = this.game.width / this.game.height;
     const mapRatio = this.mapSize.width / this.mapSize.height;
 

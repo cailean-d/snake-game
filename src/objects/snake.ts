@@ -5,6 +5,7 @@ import { Score } from '/objects/score';
 import { GameObject, Point } from '/core/interfaces';
 import { ObjectTypes, SnakeDirection, SnakeSprites } from '/game/interfaces';
 import { Sprite } from '/core/sprite';
+import { range } from '/game/utils';
 
 export class Snake implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -15,6 +16,7 @@ export class Snake implements GameObject<ObjectTypes> {
   private timeThreshold: number;
   private minTimeThreshold: number;
   private sprites: SnakeSprites;
+  private isDead: boolean;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
     this.type = ObjectTypes.SNAKE;
@@ -30,7 +32,9 @@ export class Snake implements GameObject<ObjectTypes> {
   public render() {
     this.updateTimer();
     this.checkCollision();
-    this.drawSnake();
+    if (!this.isDead) {
+      this.drawSnake();
+    }
   }
 
   public turn(direction: SnakeDirection) {
@@ -50,7 +54,7 @@ export class Snake implements GameObject<ObjectTypes> {
 
   private generateSnake(): Point[] {
     const g = this.game;
-    return Array.from(Array(g.options.snakeLength).keys()).map(i => ({ x: i, y: 1 }));
+    return range(1, g.options.snakeLength).map(i => ({ x: i, y: 1 }));
   }
 
   private checkCollision() {
@@ -65,8 +69,10 @@ export class Snake implements GameObject<ObjectTypes> {
       }
       this.move();
       if (this.game.collision.withWalls(this.scene)) {
+        this.isDead = true;
         this.game.restart();
       } else if (this.game.collision.withTail(this.scene)) {
+        this.isDead = true;
         this.game.restart();
       } 
     }

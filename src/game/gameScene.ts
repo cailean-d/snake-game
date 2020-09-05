@@ -6,6 +6,7 @@ import { SnakeGame } from '/game/snakeGame';
 import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
 import { Score } from '/objects/score';
+import { Background } from '/objects/background';
 import { ObjectTypes, SnakeDirection } from '/game/interfaces';
 
 export class GameScene extends Scene<ObjectTypes> {
@@ -21,6 +22,7 @@ export class GameScene extends Scene<ObjectTypes> {
   }
 
   private addObjects() {
+    this.addObject(new Background(this.game, this));
     this.addObject(new Apple(this.game, this));
     this.addObject(new Snake(this.game, this));
     this.addObject(new Score(this.game, this));

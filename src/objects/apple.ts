@@ -2,6 +2,7 @@ import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/game/gameScene';
 import { GameObject, Point } from '/core/interfaces';
 import { ObjectTypes, AppleSprites } from '/game/interfaces';
+import { randomInt } from '/game/utils';
 
 export class Apple implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -19,11 +20,12 @@ export class Apple implements GameObject<ObjectTypes> {
   }
 
   public generatePosition() {
+    randomInt(1, this.game.options.mapSize.width - 1)
     let position: Point;
     do {
       position = {
-        x: Math.floor(Math.random() * this.game.options.mapSize.width),
-        y: Math.floor(Math.random() * this.game.options.mapSize.height),
+        x: randomInt(1, this.game.options.mapSize.width - 1),
+        y: randomInt(1, this.game.options.mapSize.height - 1),
       }
     } while(this.checkCollision(position));
     this.position = position;
@@ -38,5 +40,4 @@ export class Apple implements GameObject<ObjectTypes> {
   private checkCollision(point: Point) {
     return this.game.collision.withPoint(this.scene, point);
   }
-
 }

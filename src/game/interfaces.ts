@@ -5,6 +5,7 @@ export enum ObjectTypes {
   SNAKE,
   APPLE,
   SCORE,
+  BACKGROUND
 }
 
 export enum SnakeDirection {
