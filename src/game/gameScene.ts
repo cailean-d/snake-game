@@ -8,6 +8,7 @@ import { ObjectTypes, SnakeDirection } from '/game/interfaces';
 import { GameLayer } from '/layers/gameLayer';
 import { BackgroundLayer } from '/layers/backgroundLayer';
 import { InterfaceLayer } from '/layers/interfaceLayer';
+import { PauseLayer } from '/layers/pauseLayer';
 
 export class GameScene extends Scene<ObjectTypes> {
   public tileMap: TileMap<ObjectTypes>;
@@ -25,6 +26,7 @@ export class GameScene extends Scene<ObjectTypes> {
     this.addObject(new BackgroundLayer(this.game, this));
     this.addObject(new GameLayer(this.game, this));
     this.addObject(new InterfaceLayer(this.game, this));
+    this.addObject(new PauseLayer(this.game, this));
   }
 
   private setInput() {
