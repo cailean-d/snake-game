@@ -79,10 +79,10 @@ export class Snake extends GameObject<ObjectTypes> {
       this.move();
       if (this.game.collision.withWalls(this.scene)) {
         this.isDead = true;
-        this.game.restart();
+        this.game.setGameOverScene();
       } else if (this.game.collision.withTail(this.scene)) {
         this.isDead = true;
-        this.game.restart();
+        this.game.setGameOverScene();
       } 
     }
   }
@@ -139,7 +139,7 @@ export class Snake extends GameObject<ObjectTypes> {
     const score = this.scene.getObject(ObjectTypes.SCORE) as Score;
     const defaultThreshold = this.game.options.timeThreshold;
     const percent = this.game.options.timeThreshold / 100;
-    const scoreMidifier = score.defaultScore ? score.score / score.defaultScore : score.defaultScore;
+    const scoreMidifier = this.game.score / score.defaultScore;
     this.timeThreshold = Math.max(this.minTimeThreshold, defaultThreshold - percent * scoreMidifier);
   }
 

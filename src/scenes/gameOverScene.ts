@@ -1,10 +1,10 @@
 import { Scene } from '/core/scene';
-import { Input } from '/core/input';
+import { Input, KEY } from '/core/input';
 import { SnakeGame } from '/game/snakeGame';
 import { ObjectTypes } from '/game/interfaces';
-import { GameMenuLayer } from '/layers/gameMenuLayer';
+import { GameOverLayer } from '/layers/gameOverLayer';
 
-export class GameMenuScene extends Scene<ObjectTypes> {
+export class GameOverScene extends Scene<ObjectTypes> {
   private input: Input;
 
   constructor(public game: SnakeGame) {
@@ -15,10 +15,14 @@ export class GameMenuScene extends Scene<ObjectTypes> {
   }
 
   private addObjects() {
-    this.addObject(new GameMenuLayer(this.game, this));
+    this.addObject(new GameOverLayer(this.game, this));
   }
 
   private setInput() {
-    this.input.onkeydown(_ => this.game.setGameScene());
+    this.input.onkeydown(params => {
+      if (params.key === KEY.SPACE) {
+        this.game.restart()
+      }
+    });
   }
 }

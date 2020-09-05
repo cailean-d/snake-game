@@ -8,6 +8,7 @@ import { ObjectTypes, GameOptions } from '/game/interfaces';
 import { AssetLoaderItemsMap } from '/core/interfaces';
 import { SnakeGameAssets, ObjectFitMinSide } from '/game/interfaces';
 import { GameMenuScene } from '/scenes/gameMenuScene';
+import { GameOverScene } from '/scenes/gameOverScene';
 import snakeTile from '/assets/snake-tiles.png';
 import logo from '/assets/logo.png';
 
@@ -20,6 +21,7 @@ export class SnakeGame extends Game<ObjectTypes> {
   public collision: CollisionDetection;
   public snakeSpriteSheet: SpriteSheet;
   public assets: AssetLoaderItemsMap<SnakeGameAssets>;
+  public score: number;
   private _assetLoader: AssetLoader<SnakeGameAssets>;
   private _prevParentRatio: number;
 
@@ -28,6 +30,7 @@ export class SnakeGame extends Game<ObjectTypes> {
     this.collision = new CollisionDetection(this);
     this.snakeSpriteSheet = new SpriteSheet();
     this._assetLoader = new AssetLoader();
+    this.score = 0;
     this.mergeOptions(options);
     this.prepareAssets();
   }
@@ -40,6 +43,7 @@ export class SnakeGame extends Game<ObjectTypes> {
   }
 
   public restart() {
+    this.score = 0;
     this.setGameScene();
   }
 
@@ -51,6 +55,11 @@ export class SnakeGame extends Game<ObjectTypes> {
   public setGameScene() {
     const gameScene = new GameScene(this);
     this.setScene(gameScene);
+  }
+
+  public setGameOverScene() {
+    const gameOverScene = new GameOverScene(this);
+    this.setScene(gameOverScene);
   }
 
   protected tick(timestamp: number) {

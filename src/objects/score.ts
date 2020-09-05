@@ -5,13 +5,11 @@ import { GameScene } from '/scenes/gameScene';
 
 export class Score extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
-  public score: number;
   public defaultScore: number;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
     super();
     this.type = ObjectTypes.SCORE;
-    this.score = 0;
     this.defaultScore = 5;
   }
   
@@ -21,7 +19,7 @@ export class Score extends GameObject<ObjectTypes> {
 
   public scoreUp(currentThreshold: number) {
     const defaultThreshold = this.game.options.timeThreshold;
-    this.score += Math.round(defaultThreshold * this.defaultScore / currentThreshold);
+    this.game.score += Math.round(defaultThreshold * this.defaultScore / currentThreshold);
   }
 
   private drawText() {
@@ -29,7 +27,7 @@ export class Score extends GameObject<ObjectTypes> {
     this.game.ctx.textBaseline = 'bottom';
     this.game.ctx.font = `bold ${this.game.width / 50}px Courier`;
     this.game.ctx.fillStyle = '#000';
-    this.game.ctx.fillText(`SCORE: ${this.score}`, 5, this.game.height - 5);
+    this.game.ctx.fillText(`SCORE: ${this.game.score}`, 5, this.game.height - 5);
   }
 
 }
