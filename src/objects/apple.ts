@@ -3,6 +3,7 @@ import { GameScene } from '/game/gameScene';
 import { GameObject, Point } from '/core/interfaces';
 import { ObjectTypes, AppleSprites } from '/game/interfaces';
 import { randomInt } from '/game/utils';
+import { Snake } from '/objects/snake';
 
 export class Apple implements GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -38,6 +39,11 @@ export class Apple implements GameObject<ObjectTypes> {
   }
 
   private checkCollision(point: Point) {
-    return this.game.collision.withPoint(this.scene, point);
+    const snake = this.scene.getObject(ObjectTypes.SNAKE) as Snake;
+    if (snake) {
+      return this.game.collision.withPoint(this.scene, point);
+    } else {
+      return this.game.collision.withSnakeStartPosition(point);
+    }
   }
 }

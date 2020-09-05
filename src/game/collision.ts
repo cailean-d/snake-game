@@ -4,6 +4,7 @@ import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
 import { Point } from '/core/interfaces';
 import { ObjectTypes } from '/game/interfaces';
+import { range } from '/game/utils';
 
 export class CollisionDetection {
   constructor(private game: SnakeGame) {}
@@ -46,10 +47,19 @@ export class CollisionDetection {
 
   withPoint(scene: GameScene, point: Point) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
-    if (!snake) return false;
-    const head = snake.snakeTail[snake.snakeTail.length - 1];
-    if (head.x === point.x && head.y === point.y) {
-      return true;
+    for (const snakePart of snake.snakeTail) {
+      if (snakePart.x === point.x && snakePart.y === point.y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  withSnakeStartPosition(point: Point) {
+    for (const n of range(1, this.game.options.snakeLength)) {
+      if (point.x === n && point.y === 1) {
+        return true;
+      }
     }
     return false;
   }
