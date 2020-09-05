@@ -1,7 +1,7 @@
 import { Layer } from '/core/layer';
 import { SnakeGame } from '/game/snakeGame';
-import { GameScene } from '/game/gameScene';
-import { ObjectTypes} from '/game/interfaces';
+import { GameScene } from '/scenes/gameScene';
+import { ObjectTypes } from '/game/interfaces';
 import { range } from '/game/utils';
 
 export class BackgroundLayer extends Layer<ObjectTypes> {

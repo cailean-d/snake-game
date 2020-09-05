@@ -1,4 +1,4 @@
-import { GameScene } from '/game/gameScene';
+import { GameScene } from '/scenes/gameScene';
 import { SnakeGame } from '/game/snakeGame';
 import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';

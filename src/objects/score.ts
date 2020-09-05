@@ -1,7 +1,7 @@
 import { GameObject } from '/core/gameObject';
 import { ObjectTypes } from '/game/interfaces';
 import { SnakeGame } from '/game/snakeGame';
-import { GameScene } from '/game/gameScene';
+import { GameScene } from '/scenes/gameScene';
 
 export class Score extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -29,7 +29,7 @@ export class Score extends GameObject<ObjectTypes> {
     this.game.ctx.textBaseline = 'bottom';
     this.game.ctx.font = `bold ${this.game.width / 50}px Courier`;
     this.game.ctx.fillStyle = '#000';
-    this.game.ctx.fillText(`Score: ${this.score}`, 5, this.game.height - 5);
+    this.game.ctx.fillText(`SCORE: ${this.score}`, 5, this.game.height - 5);
   }
 
 }

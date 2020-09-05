@@ -1,5 +1,5 @@
 import { SnakeGame } from '/game/snakeGame';
-import { GameScene } from '/game/gameScene';
+import { GameScene } from '/scenes/gameScene';
 import { Apple } from '/objects/apple';
 import { Score } from '/objects/score';
 import { Point } from '/core/interfaces';

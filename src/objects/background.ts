@@ -1,5 +1,5 @@
 import { SnakeGame } from '/game/snakeGame';
-import { GameScene } from '/game/gameScene';
+import { GameScene } from '/scenes/gameScene';
 import { GameObject } from '/core/gameObject';
 import { ObjectTypes } from '/game/interfaces';
 import { range } from '/game/utils';
