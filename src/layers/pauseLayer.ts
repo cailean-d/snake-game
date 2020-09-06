@@ -25,7 +25,7 @@ export class PauseLayer extends Layer<ObjectTypes> {
   private fillText() {
     this.game.ctx.textAlign = 'center';
     this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `bold ${this.game.width / 10}px Courier`;
+    this.game.ctx.font = `${this.game.width / 10}px PixelBoy, Courier, serif`;
     this.game.ctx.fillStyle = '#000';
     this.game.ctx.fillText('PAUSE', this.game.width / 2, this.game.height / 2);
   }
