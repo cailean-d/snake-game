@@ -1,15 +1,15 @@
 import { Game } from '/core/game';
 import { AssetLoader } from '/core/assetLoader';
 import { SpriteSheet } from '/core/spriteSheet';
-import { GameScene } from '/scenes/gameScene';
+import { Renderer } from '/core/renderer';
 import { CollisionDetection } from '/game/collision';
+import { GameScene } from '/scenes/gameScene';
+import { GameMenuScene } from '/scenes/gameMenuScene';
+import { GameOverScene } from '/scenes/gameOverScene';
 import { objectFitSide } from '/game/utils';
 import { ObjectTypes, GameOptions } from '/game/interfaces';
 import { AssetLoaderItemsMap } from '/core/interfaces';
 import { SnakeGameAssets, ObjectFitMinSide } from '/game/interfaces';
-import { GameMenuScene } from '/scenes/gameMenuScene';
-import { GameOverScene } from '/scenes/gameOverScene';
-import { Renderer } from '/core/renderer';
 import snakeTile from '/assets/images/snake-tiles.png';
 import stoneTile from '/assets/images/stone-tiles.png';
 import groundTile from '/assets/images/ground-tiles.png';
@@ -29,8 +29,8 @@ export class SnakeGame extends Game<ObjectTypes> {
   public assets: AssetLoaderItemsMap<SnakeGameAssets>;
   public score: number;
   public defaultScore: number;
-  private _assetLoader: AssetLoader<SnakeGameAssets>;
-  private _prevParentRatio: number;
+  private assetLoader: AssetLoader<SnakeGameAssets>;
+  private prevParentRatio: number;
 
   constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
     super(canvas);
@@ -39,7 +39,7 @@ export class SnakeGame extends Game<ObjectTypes> {
     this.snakeSpriteSheet = new SpriteSheet();
     this.stoneSpriteSheet = new SpriteSheet();
     this.groundSpriteSheet = new SpriteSheet();
-    this._assetLoader = new AssetLoader();
+    this.assetLoader = new AssetLoader();
     this.score = 0;
     this.defaultScore = 5;
     this.mergeOptions(options);
@@ -47,7 +47,7 @@ export class SnakeGame extends Game<ObjectTypes> {
   }
     
   public async start() {
-    this.assets = await this._assetLoader.load();
+    this.assets = await this.assetLoader.load();
     this.loadSpriteSheets();
     this.setMenuScene();
     super.start();
@@ -88,10 +88,10 @@ export class SnakeGame extends Game<ObjectTypes> {
   }
 
   private prepareAssets() {
-    this._assetLoader.add('snakeTile', snakeTile);
-    this._assetLoader.add('stoneTile', stoneTile);
-    this._assetLoader.add('groundTile', groundTile);
-    this._assetLoader.add('logo', logo);
+    this.assetLoader.add('snakeTile', snakeTile);
+    this.assetLoader.add('stoneTile', stoneTile);
+    this.assetLoader.add('groundTile', groundTile);
+    this.assetLoader.add('logo', logo);
   }
 
   private loadSpriteSheets() {
@@ -103,8 +103,8 @@ export class SnakeGame extends Game<ObjectTypes> {
   private fluidCanvasSize() {
     const parent = this.canvas.parentElement;
     const parentRatio = parent.clientWidth / parent.clientHeight;
-    if (parentRatio !== this._prevParentRatio) {
-      this._prevParentRatio = parentRatio;
+    if (parentRatio !== this.prevParentRatio) {
+      this.prevParentRatio = parentRatio;
       const side = objectFitSide(parentRatio);
       if (side === ObjectFitMinSide.WIDTH) {
         this.canvas.style.width = '100%';

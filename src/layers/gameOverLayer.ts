@@ -1,8 +1,8 @@
 import { Layer } from '/core/layer';
+import { Label } from '/core/label';
 import { SnakeGame } from '/game/snakeGame';
 import { GameOverScene } from '/scenes/gameOverScene';
 import { ObjectTypes } from '/game/interfaces';
-import { Label } from '/core/label';
 
 export class GameOverLayer extends Layer<ObjectTypes> {
   private wallColor: string;

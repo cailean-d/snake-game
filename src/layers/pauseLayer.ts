@@ -1,8 +1,8 @@
 import { Layer } from '/core/layer';
+import { Label } from '/core/label';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
-import { ObjectTypes} from '/game/interfaces';
-import { Label } from '/core/label';
+import { ObjectTypes } from '/game/interfaces';
 
 export class PauseLayer extends Layer<ObjectTypes> {
   private backgroundColor: string;

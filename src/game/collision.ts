@@ -1,15 +1,15 @@
-import { GameScene } from '/scenes/gameScene';
+import { Point } from '/core/interfaces';
 import { SnakeGame } from '/game/snakeGame';
+import { GameScene } from '/scenes/gameScene';
 import { Apple } from '/objects/apple';
 import { Snake } from '/objects/snake';
-import { Point } from '/core/interfaces';
-import { ObjectTypes } from '/game/interfaces';
 import { range } from '/game/utils';
+import { ObjectTypes } from '/game/interfaces';
 
 export class CollisionDetection {
   constructor(private game: SnakeGame) {}
 
-  withWalls(scene: GameScene) {
+  public withWalls(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     if (
@@ -23,7 +23,7 @@ export class CollisionDetection {
     return false;
   }
 
-  withTail(scene: GameScene) {
+  public withTail(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
     const tail = snake.snakeTail.slice(0, -1);
@@ -35,7 +35,7 @@ export class CollisionDetection {
     return false;
   }
 
-  withApple(scene: GameScene) {
+  public withApple(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const apple = scene.getObject(ObjectTypes.APPLE) as Apple;
     const head = snake.snakeTail[snake.snakeTail.length - 1];
@@ -45,7 +45,7 @@ export class CollisionDetection {
     return false;
   }
 
-  withPoint(scene: GameScene, point: Point) {
+  public withPoint(scene: GameScene, point: Point) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     for (const snakePart of snake.snakeTail) {
       if (snakePart.x === point.x && snakePart.y === point.y) {
@@ -55,7 +55,7 @@ export class CollisionDetection {
     return false;
   }
 
-  withSnakeStartPosition(point: Point) {
+  public withSnakeStartPosition(point: Point) {
     for (const n of range(1, this.game.options.snakeLength)) {
       if (point.x === n && point.y === 1) {
         return true;

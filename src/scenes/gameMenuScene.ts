@@ -1,8 +1,8 @@
 import { Scene } from '/core/scene';
 import { Input } from '/core/input';
 import { SnakeGame } from '/game/snakeGame';
-import { ObjectTypes } from '/game/interfaces';
 import { GameMenuLayer } from '/layers/gameMenuLayer';
+import { ObjectTypes } from '/game/interfaces';
 
 export class GameMenuScene extends Scene<ObjectTypes> {
   private input: Input;

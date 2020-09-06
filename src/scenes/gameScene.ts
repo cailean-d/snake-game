@@ -3,21 +3,21 @@ import { Input } from '/core/input';
 import { KEY } from '/core/input';
 import { TileMap } from '/core/tileMap';
 import { SnakeGame } from '/game/snakeGame';
-import { Snake } from '/objects/snake';
-import { ObjectTypes, SnakeDirection } from '/game/interfaces';
 import { GameLayer } from '/layers/gameLayer';
 import { BackgroundLayer } from '/layers/backgroundLayer';
 import { InterfaceLayer } from '/layers/interfaceLayer';
 import { PauseLayer } from '/layers/pauseLayer';
+import { Snake } from '/objects/snake';
+import { ObjectTypes, SnakeDirection } from '/game/interfaces';
 
 export class GameScene extends Scene<ObjectTypes> {
   public tileMap: TileMap<ObjectTypes>;
-  private _input: Input;
+  private input: Input;
 
   constructor(public game: SnakeGame) {
     super(game);
     this.tileMap = new TileMap(this.game, this.game.options.mapSize);
-    this._input = new Input(document.body);
+    this.input = new Input(document.body);
     this.addObjects();
     this.setInput();
   }
@@ -31,7 +31,7 @@ export class GameScene extends Scene<ObjectTypes> {
 
   private setInput() {
     const snake = this.getObject(ObjectTypes.SNAKE) as Snake;
-    this._input.onkeydown(params => {
+    this.input.onkeydown(params => {
       switch(params.key) {
         case KEY.ARROW_LEFT:
         case KEY.A:

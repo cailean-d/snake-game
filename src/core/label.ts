@@ -7,8 +7,8 @@ export class Label {
     public size = 16,
     public font = 'Courier, serif',
     public style: 'normal' | 'bold' | 'italic' = 'normal',
-    public align: CanvasTextAlign = 'start',
-    public baseLine: CanvasTextBaseline = 'top',
+    public align: 'center' | 'left' | 'right' = 'left',
+    public baseLine: 'middle' | 'top' | 'bottom' = 'top',
     public background?: LabelBackground,
   ) {}
 }

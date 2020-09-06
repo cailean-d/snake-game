@@ -10,6 +10,11 @@ export class Renderer<T> {
     this.game.ctx.fillStyle = color;
     this.game.ctx.fillRect(position.x, position.y, size.width, size.height);
   }
+  
+  public fillTile(color: string, cell: TileMapCell) {
+    this.game.ctx.fillStyle = color;
+    this.game.ctx.fillRect(cell.x, cell.y, cell.width, cell.height);
+  }
 
   public drawLabel(label: Label, position: Point) {
     let x = position.x;
@@ -43,11 +48,6 @@ export class Renderer<T> {
 
     this.game.ctx.fillStyle = label.color;
     this.game.ctx.fillText(label.text, x + padding, y + padding);
-  }
-
-  public fillTile(color: string, cell: TileMapCell) {
-    this.game.ctx.fillStyle = color;
-    this.game.ctx.fillRect(cell.x, cell.y, cell.width, cell.height);
   }
 
   public drawTileSprite(sprite: Sprite, cell: TileMapCell) {

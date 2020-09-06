@@ -1,10 +1,10 @@
+import { Sprite } from '/core/sprite';
+import { GameObject } from '/core/gameObject';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
 import { Apple } from '/objects/apple';
 import { Point } from '/core/interfaces';
-import { GameObject } from '/core/gameObject';
 import { ObjectTypes, SnakeDirection, SnakeSprites } from '/game/interfaces';
-import { Sprite } from '/core/sprite';
 import { range } from '/game/utils';
 
 export class Snake extends GameObject<ObjectTypes> {
@@ -62,8 +62,7 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private generateSnake(): Point[] {
-    const g = this.game;
-    return range(1, g.options.snakeLength).map(i => ({ x: i, y: 1 }));
+    return range(1, this.game.options.snakeLength).map(i => ({ x: i, y: 1 }));
   }
 
   private checkCollision() {

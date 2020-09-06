@@ -1,10 +1,10 @@
+import { GameObject } from '/core/gameObject';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
-import { GameObject } from '/core/gameObject';
+import { Snake } from '/objects/snake';
+import { randomInt } from '/game/utils';
 import { Point } from '/core/interfaces';
 import { ObjectTypes, AppleSprites } from '/game/interfaces';
-import { randomInt } from '/game/utils';
-import { Snake } from '/objects/snake';
 
 export class Apple extends GameObject<ObjectTypes> {
   public type: ObjectTypes;

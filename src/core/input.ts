@@ -1,9 +1,9 @@
-import { KeyboardHandler, KeyboardParams } from './interfaces';
+import { KeyboardHandler, KeyboardParams } from '/core/interfaces';
 
 export class Input {
   constructor(private target: HTMLElement) {}
 
-  onkeydown(handler: KeyboardHandler) {
+  public onkeydown(handler: KeyboardHandler) {
     this.target.onkeydown = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
@@ -11,7 +11,7 @@ export class Input {
     }
   }
 
-  onkeyup(handler: KeyboardHandler) {
+  public onkeyup(handler: KeyboardHandler) {
     this.target.onkeyup = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };
@@ -19,7 +19,7 @@ export class Input {
     }
   }
 
-  onkeypress(handler: KeyboardHandler) {
+  public onkeypress(handler: KeyboardHandler) {
     this.target.onkeypress = ({ shiftKey, ctrlKey, altKey, key }) => {
       const KEY = key.toUpperCase();
       const params: KeyboardParams = { shiftKey, ctrlKey, altKey, key: KEY };

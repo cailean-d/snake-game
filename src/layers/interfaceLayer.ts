@@ -1,8 +1,8 @@
 import { Layer } from '/core/layer';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
-import { ObjectTypes} from '/game/interfaces';
 import { Score } from '/objects/score';
+import { ObjectTypes } from '/game/interfaces';
 
 export class InterfaceLayer extends Layer<ObjectTypes> {
 

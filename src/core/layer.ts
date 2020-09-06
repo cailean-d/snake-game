@@ -1,6 +1,6 @@
-import { GameObject } from '/core/gameObject';
-import { Scene } from '/core/scene';
 import { Game } from '/core/game';
+import { Scene } from '/core/scene';
+import { GameObject } from '/core/gameObject';
 import { CoreObjectTypes } from '/core/interfaces';
 
 export abstract class Layer<T> extends GameObject<T> {

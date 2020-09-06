@@ -1,7 +1,7 @@
 import { Game } from '/core/game';
-import { Dimension, Point, TileMapCell } from '/core/interfaces';
 import { ObjectFitMinSide } from '/game/interfaces';
 import { objectFitSide } from '/game/utils';
+import { Dimension, Point, TileMapCell } from '/core/interfaces';
 
 export class TileMap<T> {
   constructor(private game: Game<T>, private mapSize: Dimension) {}

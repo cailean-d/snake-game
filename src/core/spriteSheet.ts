@@ -1,16 +1,16 @@
-import { Dimension, Position } from './interfaces';
-import { Sprite } from './sprite';
+import { Sprite } from '/core/sprite';
+import { Dimension, Position } from '/core/interfaces';
 
 export class SpriteSheet {
   private image: HTMLImageElement;
   private tileSize: Dimension;
 
-  loadTileSet(image: HTMLImageElement, tileSize: Dimension) {
+  public loadTileSet(image: HTMLImageElement, tileSize: Dimension) {
     this.image = image;
     this.tileSize = tileSize;
   }
 
-  getSprite(tile: Position) {
+  public getSprite(tile: Position) {
     const buffer = document.createElement('canvas');
     buffer.width = this.tileSize.width;
     buffer.height = this.tileSize.height;

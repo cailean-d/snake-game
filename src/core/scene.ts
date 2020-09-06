@@ -1,7 +1,7 @@
-import { Game } from './game';
+import { Game } from '/core/game';
 import { GameObject } from '/core/gameObject';
-import { CoreObjectTypes } from '/core/interfaces';
 import { Layer } from '/core/layer';
+import { CoreObjectTypes } from '/core/interfaces';
 
 export abstract class Scene<T> {
   public isPaused: boolean;
