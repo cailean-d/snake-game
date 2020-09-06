@@ -10,7 +10,7 @@
 body {
   display: flex;
   justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: 100vh;
   background: #eee;
   padding: 40px;
@@ -20,4 +20,41 @@ canvas {
   border: 2px solid #292828;
   background: #353535;
   outline: none;
+}
+
+.description {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+}
+
+h1 {
+  font-family: Minecraft;
+}
+
+.description p {
+  margin: 10px;
+}
+
+.game-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+kbd {
+  display: inline-block;
+  margin: 0 .1em;
+  padding: .1em .6em;
+  font-family: Arial, "Helvetica Neue", Helvetica,sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #242729;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #e4e6e8;
+  border: 1px solid #9fa6ad;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(12,13,14,0.15), inset 0 1px 0 0 #fff;
+  overflow-wrap: break-word;
 }
