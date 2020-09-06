@@ -34,3 +34,8 @@ export type AssetLoaderItemsMap<T extends string> = Partial<Record<T, HTMLImageE
 export type CoreObject<T> = CoreObjectTypes | T
 
 export enum CoreObjectTypes { LAYER = 'LAYER' }
+
+export interface LabelBackground {
+  color: string;
+  padding: number;
+}

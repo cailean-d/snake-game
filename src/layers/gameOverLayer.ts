@@ -2,6 +2,8 @@ import { Layer } from '/core/layer';
 import { SnakeGame } from '/game/snakeGame';
 import { GameOverScene } from '/scenes/gameOverScene';
 import { ObjectTypes } from '/game/interfaces';
+import { Label } from '/core/label';
+import { Point } from '/core/interfaces';
 
 export class GameOverLayer extends Layer<ObjectTypes> {
   private wallColor: string;
@@ -24,32 +26,34 @@ export class GameOverLayer extends Layer<ObjectTypes> {
   }
 
   private fillGameOver() {
-    this.game.ctx.textAlign = 'center';
-    this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `${this.game.width / 15}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = '#000';
-    const x = this.game.width / 2;
-    const y = this.game.height / 2.2;
-    this.game.ctx.fillText('GAME OVER', x, y);
+    const text = 'GAME OVER';
+    const size = this.game.width / 15;
+    const point =  { x: this.game.width / 2, y: this.game.height / 2.2 };
+    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    this.drawLabel(label, point);
   }
 
   private fillScore() {
-    this.game.ctx.textAlign = 'center';
-    this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `${this.game.width / 30}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = '#000';
-    const x = this.game.width / 2;
-    const y = this.game.height / 1.8;
-    this.game.ctx.fillText(`YOUR SCORE: ${this.game.score}`, x, y);
+    const text = `YOUR SCORE: ${this.game.score}`;
+    const size = this.game.width / 30;
+    const point = { x: this.game.width / 2, y: this.game.height / 1.8 };
+    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    this.drawLabel(label, point);
   }
   
   private fillText() {
-    this.game.ctx.textAlign = 'center';
-    this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `${this.game.width / 40}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = '#000';
-    const x = this.game.width / 2;
-    const y = this.game.height / 1.1;
-    this.game.ctx.fillText('PRESS SPACE TO RESTART ', x, y);
+    const text = `PRESS SPACE TO RESTART`;
+    const size = this.game.width / 30;
+    const point = { x: this.game.width / 2, y: this.game.height / 1.1 };
+    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    this.drawLabel(label, point);
+  }
+
+  private drawLabel(label: Label, position: Point) {
+    this.game.ctx.textAlign = label.align;
+    this.game.ctx.textBaseline = label.baseLine;
+    this.game.ctx.font = `${label.style} ${label.size}px ${label.font}`;
+    this.game.ctx.fillStyle = label.color;
+    this.game.ctx.fillText(label.text, position.x, position.y);
   }
 }
