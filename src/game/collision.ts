@@ -11,7 +11,7 @@ export class CollisionDetection {
 
   public withWalls(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
-    const head = snake.snakeTail[snake.snakeTail.length - 1];
+    const head = snake.snakeBody[snake.snakeBody.length - 1];
     if (
       head.x <= 0 ||
       head.y <= 0 ||
@@ -25,8 +25,8 @@ export class CollisionDetection {
 
   public withTail(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
-    const head = snake.snakeTail[snake.snakeTail.length - 1];
-    const tail = snake.snakeTail.slice(0, -1);
+    const head = snake.snakeBody[snake.snakeBody.length - 1];
+    const tail = snake.snakeBody.slice(0, -1);
     for (const point of tail) {
       if (head.x === point.x && head.y === point.y) {
         return true;
@@ -38,7 +38,7 @@ export class CollisionDetection {
   public withApple(scene: GameScene) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
     const apple = scene.getObject(ObjectTypes.APPLE) as Apple;
-    const head = snake.snakeTail[snake.snakeTail.length - 1];
+    const head = snake.snakeBody[snake.snakeBody.length - 1];
     if (head.x === apple.position.x && head.y === apple.position.y) {
       return true;
     }
@@ -47,7 +47,7 @@ export class CollisionDetection {
 
   public withPoint(scene: GameScene, point: Point) {
     const snake = scene.getObject(ObjectTypes.SNAKE) as Snake;
-    for (const snakePart of snake.snakeTail) {
+    for (const snakePart of snake.snakeBody) {
       if (snakePart.x === point.x && snakePart.y === point.y) {
         return true;
       }

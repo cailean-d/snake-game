@@ -9,7 +9,7 @@ import { range } from '/game/utils';
 
 export class Snake extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
-  public snakeTail: Point[];
+  public snakeBody: Point[];
   private direction: SnakeDirection;
   private nextDirectionQueue: SnakeDirection[];
   private timer: number;
@@ -24,7 +24,7 @@ export class Snake extends GameObject<ObjectTypes> {
     this.minTimeThreshold = 20;
     this.direction = SnakeDirection.RIGHT;
     this.nextDirectionQueue = [];
-    this.snakeTail = this.generateSnake();
+    this.snakeBody = this.generateSnake();
     this.timeThreshold = this.game.options.timeThreshold;
     this.timer = 0;
     this.loadSprites();
@@ -100,8 +100,8 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private move(snakeGrow = false) {
-    const head = this.snakeTail[this.snakeTail.length - 1];
-    const tail = snakeGrow ? Object.assign({}, head) : this.snakeTail.shift();
+    const head = this.snakeBody[this.snakeBody.length - 1];
+    const tail = snakeGrow ? Object.assign({}, head) : this.snakeBody.shift();
     switch (this.direction) {
       case SnakeDirection.LEFT:
         tail.x = head.x - 1;
@@ -120,7 +120,7 @@ export class Snake extends GameObject<ObjectTypes> {
         tail.y = head.y + 1;
         break;
     }
-    this.snakeTail.push(tail);
+    this.snakeBody.push(tail);
     this.timer = 0;
   }
 
@@ -141,11 +141,11 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private drawSnake() {
-    this.snakeTail.forEach((curr, i) => {
+    this.snakeBody.forEach((curr, i) => {
       let tile: Sprite;
       if (i === 0) {
         tile = this.getTailTile(curr, i);
-      } else if (i === this.snakeTail.length - 1) {
+      } else if (i === this.snakeBody.length - 1) {
         tile = this.getHeadTile();
       } else {
         tile = this.getBodyTile(curr, i);
@@ -169,7 +169,7 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private getTailTile(curr: Point, i: number): Sprite {
-    const next = this.snakeTail[i + 1];
+    const next = this.snakeBody[i + 1];
     if (next.y < curr.y) {
       return this.sprites.tailUp;
     } else if (next.x > curr.x) {
@@ -182,8 +182,8 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private getBodyTile(curr: Point, i: number): Sprite {
-    const next = this.snakeTail[i + 1];
-    const prev = this.snakeTail[i - 1];
+    const next = this.snakeBody[i + 1];
+    const prev = this.snakeBody[i - 1];
     if (next.x < curr.x && prev.x > curr.x || prev.x < curr.x && next.x > curr.x) {
       return this.sprites.horizontalLeftRight;
     } else if (next.x < curr.x && prev.y > curr.y || prev.x < curr.x && next.y > curr.y) {
