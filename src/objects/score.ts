@@ -6,21 +6,14 @@ import { Label } from '/core/label';
 
 export class Score extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
-  public defaultScore: number;
 
   constructor(private game: SnakeGame, private scene: GameScene) {
     super();
     this.type = ObjectTypes.SCORE;
-    this.defaultScore = 5;
   }
   
   public render() {
     this.drawText();
-  }
-
-  public scoreUp(currentThreshold: number) {
-    const defaultThreshold = this.game.options.timeThreshold;
-    this.game.score += Math.round(defaultThreshold * this.defaultScore / currentThreshold);
   }
 
   private drawText() {
@@ -31,5 +24,4 @@ export class Score extends GameObject<ObjectTypes> {
     const label = new Label(text, '#fff', size, 'PixelBoy', 'normal', 'left', 'middle', bg);
     this.game.renderer.drawLabel(label, point);
   }
-
 }

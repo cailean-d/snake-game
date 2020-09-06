@@ -1,7 +1,6 @@
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
 import { Apple } from '/objects/apple';
-import { Score } from '/objects/score';
 import { Point } from '/core/interfaces';
 import { GameObject } from '/core/gameObject';
 import { ObjectTypes, SnakeDirection, SnakeSprites } from '/game/interfaces';
@@ -131,15 +130,13 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   private updateScore() {
-    const score = this.scene.getObject(ObjectTypes.SCORE) as Score;
-    score.scoreUp(this.timeThreshold);
+    this.game.scoreUp(this.timeThreshold);
   }
 
   private updateSpeed() {
-    const score = this.scene.getObject(ObjectTypes.SCORE) as Score;
     const defaultThreshold = this.game.options.timeThreshold;
     const percent = this.game.options.timeThreshold / 100;
-    const scoreMidifier = this.game.score / score.defaultScore;
+    const scoreMidifier = this.game.score / this.game.defaultScore;
     this.timeThreshold = Math.max(this.minTimeThreshold, defaultThreshold - percent * scoreMidifier);
   }
 

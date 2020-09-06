@@ -28,6 +28,7 @@ export class SnakeGame extends Game<ObjectTypes> {
   public groundSpriteSheet: SpriteSheet;
   public assets: AssetLoaderItemsMap<SnakeGameAssets>;
   public score: number;
+  public defaultScore: number;
   private _assetLoader: AssetLoader<SnakeGameAssets>;
   private _prevParentRatio: number;
 
@@ -40,6 +41,7 @@ export class SnakeGame extends Game<ObjectTypes> {
     this.groundSpriteSheet = new SpriteSheet();
     this._assetLoader = new AssetLoader();
     this.score = 0;
+    this.defaultScore = 5;
     this.mergeOptions(options);
     this.prepareAssets();
   }
@@ -69,6 +71,11 @@ export class SnakeGame extends Game<ObjectTypes> {
   public setGameOverScene() {
     const gameOverScene = new GameOverScene(this);
     this.setScene(gameOverScene);
+  }
+
+  public scoreUp(currentThreshold: number) {
+    const defaultThreshold = this.options.timeThreshold;
+    this.score += Math.round(defaultThreshold * this.defaultScore / currentThreshold);
   }
 
   protected tick(timestamp: number) {
