@@ -12,7 +12,7 @@ export class Snake extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
   public snakeTail: Point[];
   private direction: SnakeDirection;
-  private nextDirection: SnakeDirection;
+  private nextDirectionQueue: SnakeDirection[];
   private timer: number;
   private timeThreshold: number;
   private minTimeThreshold: number;
@@ -24,7 +24,7 @@ export class Snake extends GameObject<ObjectTypes> {
     this.type = ObjectTypes.SNAKE;
     this.minTimeThreshold = 20;
     this.direction = SnakeDirection.RIGHT;
-    this.nextDirection = SnakeDirection.RIGHT;
+    this.nextDirectionQueue = [];
     this.snakeTail = this.generateSnake();
     this.timeThreshold = this.game.options.timeThreshold;
     this.timer = 0;
@@ -44,18 +44,20 @@ export class Snake extends GameObject<ObjectTypes> {
 
   public turn(direction: SnakeDirection) {
     if (!this.scene.isPaused) {
-      this.nextDirection = direction;
+      this.nextDirectionQueue.push(direction);
     }
   }
 
   private tryTurn() {
+    if (!this.nextDirectionQueue.length) return;
+    const nextDirection = this.nextDirectionQueue.shift();
     if (
-      (this.nextDirection === SnakeDirection.LEFT && this.direction !== SnakeDirection.RIGHT) ||
-      (this.nextDirection === SnakeDirection.UP && this.direction !== SnakeDirection.DOWN) ||
-      (this.nextDirection === SnakeDirection.RIGHT && this.direction !== SnakeDirection.LEFT) ||
-      (this.nextDirection === SnakeDirection.DOWN && this.direction !== SnakeDirection.UP)
+      (nextDirection === SnakeDirection.LEFT && this.direction !== SnakeDirection.RIGHT) ||
+      (nextDirection === SnakeDirection.UP && this.direction !== SnakeDirection.DOWN) ||
+      (nextDirection === SnakeDirection.RIGHT && this.direction !== SnakeDirection.LEFT) ||
+      (nextDirection === SnakeDirection.DOWN && this.direction !== SnakeDirection.UP)
     ) {
-      this.direction = this.nextDirection;
+      this.direction = nextDirection;
     }
   }
 
