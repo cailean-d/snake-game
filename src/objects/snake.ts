@@ -32,10 +32,8 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   public calculate() {
-    if(!this.scene.isPaused) {
-      this.updateTimer();
-      this.checkCollision();
-    }
+    this.updateTimer();
+    this.checkCollision();
   }
 
   public render() {
