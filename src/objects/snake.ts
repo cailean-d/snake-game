@@ -42,7 +42,8 @@ export class Snake extends GameObject<ObjectTypes> {
   }
 
   public turn(direction: SnakeDirection) {
-    if (!this.scene.isPaused) {
+    const que = this.nextDirectionQueue;
+    if (!this.scene.isPaused && (!que.length || que[que.length - 1] !== direction)) {
       this.nextDirectionQueue.push(direction);
     }
   }
