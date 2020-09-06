@@ -1,5 +1,5 @@
 import { Scene } from '/core/scene';
-import { Input } from '/core/input';
+import { Input, KEY } from '/core/input';
 import { SnakeGame } from '/game/snakeGame';
 import { GameMenuLayer } from '/layers/gameMenuLayer';
 import { ObjectTypes } from '/game/interfaces';
@@ -19,6 +19,12 @@ export class GameMenuScene extends Scene<ObjectTypes> {
   }
 
   private setInput() {
-    this.input.onkeydown(_ => this.game.setGameScene());
+    this.input.onkeydown(params => {
+      if (params.key === KEY.F) {
+        this.game.toggleFullscreen();
+      } else {
+        this.game.setGameScene();
+      }
+    });
   }
 }

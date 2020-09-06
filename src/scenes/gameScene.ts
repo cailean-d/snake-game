@@ -52,6 +52,9 @@ export class GameScene extends Scene<ObjectTypes> {
         case KEY.SPACE:
           this.isPaused = !this.isPaused;
           break;
+        case KEY.F:
+          this.game.toggleFullscreen();
+          break;
       }
     });
   }

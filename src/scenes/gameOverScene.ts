@@ -22,6 +22,8 @@ export class GameOverScene extends Scene<ObjectTypes> {
     this.input.onkeydown(params => {
       if (params.key === KEY.SPACE) {
         this.game.restart()
+      } else if (params.key === KEY.F) {
+        this.game.toggleFullscreen();
       }
     });
   }

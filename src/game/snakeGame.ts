@@ -58,6 +58,16 @@ export class SnakeGame extends Game<ObjectTypes> {
     this.setGameScene();
   }
 
+  public toggleFullscreen() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      this.canvas.style.cursor = null;
+    } else {
+      this.canvas.requestFullscreen();
+      this.canvas.style.cursor = 'none';
+    }
+  }
+
   public setMenuScene() {
     const gameMenu = new GameMenuScene(this);
     this.setScene(gameMenu);
