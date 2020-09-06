@@ -25,7 +25,7 @@ export class Score extends GameObject<ObjectTypes> {
   private drawText() {
     this.game.ctx.textAlign = 'left';
     this.game.ctx.textBaseline = 'bottom';
-    this.game.ctx.font = `bold ${this.game.width / 50}px Courier`;
+    this.game.ctx.font = `bold ${this.game.width / 50}px PixelBoy, Courier, serif`;
     this.game.ctx.fillStyle = '#000';
     this.game.ctx.fillText(`SCORE: ${this.game.score}`, 5, this.game.height - 5);
   }

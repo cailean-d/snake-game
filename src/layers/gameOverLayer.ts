@@ -26,7 +26,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
   private fillGameOver() {
     this.game.ctx.textAlign = 'center';
     this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `bold ${this.game.width / 15}px Courier`;
+    this.game.ctx.font = `bold ${this.game.width / 15}px PixelBoy, Courier, serif`;
     this.game.ctx.fillStyle = '#000';
     const x = this.game.width / 2;
     const y = this.game.height / 2.2;
@@ -36,7 +36,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
   private fillScore() {
     this.game.ctx.textAlign = 'center';
     this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `bold ${this.game.width / 30}px Courier`;
+    this.game.ctx.font = `bold ${this.game.width / 30}px PixelBoy, Courier, serif`;
     this.game.ctx.fillStyle = '#000';
     const x = this.game.width / 2;
     const y = this.game.height / 1.8;
@@ -46,7 +46,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
   private fillText() {
     this.game.ctx.textAlign = 'center';
     this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `bold ${this.game.width / 40}px Courier`;
+    this.game.ctx.font = `bold ${this.game.width / 40}px PixelBoy, Courier, serif`;
     this.game.ctx.fillStyle = '#000';
     const x = this.game.width / 2;
     const y = this.game.height / 1.1;
