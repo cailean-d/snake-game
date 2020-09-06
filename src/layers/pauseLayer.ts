@@ -2,6 +2,7 @@ import { Layer } from '/core/layer';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
 import { ObjectTypes} from '/game/interfaces';
+import { Label } from '/core/label';
 
 export class PauseLayer extends Layer<ObjectTypes> {
   private backgroundColor: string;
@@ -18,15 +19,16 @@ export class PauseLayer extends Layer<ObjectTypes> {
   }
 
   private fillCanvas() {
-    this.game.ctx.fillStyle = this.backgroundColor;
-    this.game.ctx.fillRect(0, 0, this.game.width, this.game.height);
+    const point = { x: 0, y: 0 };
+    const dim = { width: this.game.width, height: this.game.height };
+    this.game.renderer.fillRect(this.backgroundColor, point, dim);
   }
 
   private fillText() {
-    this.game.ctx.textAlign = 'center';
-    this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `${this.game.width / 10}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = '#000';
-    this.game.ctx.fillText('PAUSE', this.game.width / 2, this.game.height / 2);
+    const text = 'PAUSE';
+    const size = this.game.width / 10;
+    const point =  { x: this.game.width / 2, y: this.game.height / 2 };
+    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    this.game.renderer.drawLabel(label, point);
   }
 }

@@ -19,7 +19,8 @@ export class Apple extends GameObject<ObjectTypes> {
   }
 
   public render() {
-    this.scene.tileMap.drawSprite(this.sprites.apple, this.position);
+    const cell = this.scene.tileMap.getCell(this.position);
+    this.game.renderer.drawTileSprite(this.sprites.apple, cell);
   }
 
   public generatePosition() {

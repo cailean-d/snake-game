@@ -21,19 +21,21 @@ export class BackgroundLayer extends Layer<ObjectTypes> {
     const h = this.game.options.mapSize.height;
     for (const i of range(0, w)) {
       for (const j of range(0, h)) {
+        const cell = this.scene.tileMap.getCell({ x: i, y: j });
         if (i === 0 || i === w - 1 || j === 0 || j === h - 1) {
-          this.scene.tileMap.drawSprite(this.groundSprites.ground, { x: i, y: j });
-          this.scene.tileMap.drawSprite(this.wallSprites.stone, { x: i, y: j });
+          this.game.renderer.drawTileSprite(this.groundSprites.ground, cell);
+          this.game.renderer.drawTileSprite(this.wallSprites.stone, cell);
         } else {
-          this.scene.tileMap.drawSprite(this.groundSprites.sand, { x: i, y: j });
+          this.game.renderer.drawTileSprite(this.groundSprites.sand, cell);
         }
       }
     }
   }
 
   private fillCanvas() {
-    this.game.ctx.fillStyle = this.wallColor;
-    this.game.ctx.fillRect(0, 0, this.game.width, this.game.height);
+    const point = { x: 0, y: 0 };
+    const dim = { width: this.game.width, height: this.game.height };
+    this.game.renderer.fillRect(this.wallColor, point, dim);
   }
 
   private loadSprites() {

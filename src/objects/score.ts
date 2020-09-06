@@ -2,6 +2,7 @@ import { GameObject } from '/core/gameObject';
 import { ObjectTypes } from '/game/interfaces';
 import { SnakeGame } from '/game/snakeGame';
 import { GameScene } from '/scenes/gameScene';
+import { Label } from '/core/label';
 
 export class Score extends GameObject<ObjectTypes> {
   public type: ObjectTypes;
@@ -14,30 +15,21 @@ export class Score extends GameObject<ObjectTypes> {
   }
   
   public render() {
-    const text = `SCORE: ${this.game.score}`;
-    this.drawTextBackground(text);
-    this.drawText(text);
+    this.drawText();
   }
 
   public scoreUp(currentThreshold: number) {
     const defaultThreshold = this.game.options.timeThreshold;
     this.game.score += Math.round(defaultThreshold * this.defaultScore / currentThreshold);
   }
-  
-  private drawTextBackground(text: string) {
-    this.game.ctx.font = `${this.game.width / 50}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    const textWidth = this.game.ctx.measureText(text).width;
-    const textHeight = 3 / 4 * (this.game.width / 50);
-    this.game.ctx.fillRect(5, 5, textWidth + 10, textHeight + 10);
-  }
 
-  private drawText(text: string) {
-    this.game.ctx.textAlign = 'left';
-    this.game.ctx.textBaseline = 'middle';
-    this.game.ctx.font = `${this.game.width / 50}px PixelBoy, Courier, serif`;
-    this.game.ctx.fillStyle = '#fff';
-    this.game.ctx.fillText(text, 10, 10);
+  private drawText() {
+    const text = `SCORE: ${this.game.score}`;
+    const size = this.game.width / 50;
+    const point =  { x: 5, y: 5 };
+    const bg = { color: 'rgba(0, 0, 0, 0.5)', padding: 5 };
+    const label = new Label(text, '#fff', size, 'PixelBoy', 'normal', 'left', 'middle', bg);
+    this.game.renderer.drawLabel(label, point);
   }
 
 }

@@ -153,7 +153,8 @@ export class Snake extends GameObject<ObjectTypes> {
       } else {
         tile = this.getBodyTile(curr, i);
       }
-      this.scene.tileMap.drawSprite(tile, curr);
+      const cell = this.scene.tileMap.getCell(curr);
+      this.game.renderer.drawTileSprite(tile, cell);
     });
   }
 

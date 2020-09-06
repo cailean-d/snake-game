@@ -3,7 +3,6 @@ import { SnakeGame } from '/game/snakeGame';
 import { GameOverScene } from '/scenes/gameOverScene';
 import { ObjectTypes } from '/game/interfaces';
 import { Label } from '/core/label';
-import { Point } from '/core/interfaces';
 
 export class GameOverLayer extends Layer<ObjectTypes> {
   private wallColor: string;
@@ -21,8 +20,9 @@ export class GameOverLayer extends Layer<ObjectTypes> {
   }
 
   private fillCanvas() {
-    this.game.ctx.fillStyle = this.wallColor;
-    this.game.ctx.fillRect(0, 0, this.game.width, this.game.height);
+    const point = { x: 0, y: 0 };
+    const dim = { width: this.game.width, height: this.game.height };
+    this.game.renderer.fillRect(this.wallColor, point, dim);
   }
 
   private fillGameOver() {
@@ -30,7 +30,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const size = this.game.width / 15;
     const point =  { x: this.game.width / 2, y: this.game.height / 2.2 };
     const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
-    this.drawLabel(label, point);
+    this.game.renderer.drawLabel(label, point);
   }
 
   private fillScore() {
@@ -38,7 +38,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const size = this.game.width / 30;
     const point = { x: this.game.width / 2, y: this.game.height / 1.8 };
     const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
-    this.drawLabel(label, point);
+    this.game.renderer.drawLabel(label, point);
   }
   
   private fillText() {
@@ -46,14 +46,6 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const size = this.game.width / 30;
     const point = { x: this.game.width / 2, y: this.game.height / 1.1 };
     const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
-    this.drawLabel(label, point);
-  }
-
-  private drawLabel(label: Label, position: Point) {
-    this.game.ctx.textAlign = label.align;
-    this.game.ctx.textBaseline = label.baseLine;
-    this.game.ctx.font = `${label.style} ${label.size}px ${label.font}`;
-    this.game.ctx.fillStyle = label.color;
-    this.game.ctx.fillText(label.text, position.x, position.y);
+    this.game.renderer.drawLabel(label, point);
   }
 }

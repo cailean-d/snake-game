@@ -9,6 +9,7 @@ import { AssetLoaderItemsMap } from '/core/interfaces';
 import { SnakeGameAssets, ObjectFitMinSide } from '/game/interfaces';
 import { GameMenuScene } from '/scenes/gameMenuScene';
 import { GameOverScene } from '/scenes/gameOverScene';
+import { Renderer } from '/core/renderer';
 import snakeTile from '/assets/images/snake-tiles.png';
 import stoneTile from '/assets/images/stone-tiles.png';
 import groundTile from '/assets/images/ground-tiles.png';
@@ -21,6 +22,7 @@ const defaultOptions: GameOptions = {
 export class SnakeGame extends Game<ObjectTypes> {
   public options: GameOptions;
   public collision: CollisionDetection;
+  public renderer: Renderer<ObjectTypes>;
   public snakeSpriteSheet: SpriteSheet;
   public stoneSpriteSheet: SpriteSheet;
   public groundSpriteSheet: SpriteSheet;
@@ -32,6 +34,7 @@ export class SnakeGame extends Game<ObjectTypes> {
   constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
     super(canvas);
     this.collision = new CollisionDetection(this);
+    this.renderer = new Renderer(this);
     this.snakeSpriteSheet = new SpriteSheet();
     this.stoneSpriteSheet = new SpriteSheet();
     this.groundSpriteSheet = new SpriteSheet();
