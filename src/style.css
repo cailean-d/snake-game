@@ -1,6 +1,6 @@
 @font-face {
   font-family: PixelBoy;
-  src: url('/fonts/Pixeboy.ttf') format('truetype');
+  src: url('/assets/fonts/Pixeboy.ttf') format('truetype');
 }
 
 * {

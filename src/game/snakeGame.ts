@@ -9,10 +9,10 @@ import { AssetLoaderItemsMap } from '/core/interfaces';
 import { SnakeGameAssets, ObjectFitMinSide } from '/game/interfaces';
 import { GameMenuScene } from '/scenes/gameMenuScene';
 import { GameOverScene } from '/scenes/gameOverScene';
-import snakeTile from '/assets/snake-tiles.png';
-import stoneTile from '/assets/stone-tiles.png';
-import groundTile from '/assets/ground-tiles.png';
-import logo from '/assets/logo.png';
+import snakeTile from '/assets/images/snake-tiles.png';
+import stoneTile from '/assets/images/stone-tiles.png';
+import groundTile from '/assets/images/ground-tiles.png';
+import logo from '/assets/images/logo.png';
 
 const defaultOptions: GameOptions = {
   size: 15, snakeLength: 5, timeThreshold: 100, mapSize: { width: 32, height: 18 }
