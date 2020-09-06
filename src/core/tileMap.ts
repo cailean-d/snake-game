@@ -28,10 +28,10 @@ export class TileMap<T> {
     const side = objectFitSide(canvasRatio, mapRatio);
 
     if (side === ObjectFitMinSide.WIDTH) {
-      cellWidth = Math.floor(this.game.width / this.mapSize.width);
+      cellWidth = this.game.width / this.mapSize.width;
       cellHeight = cellWidth;
     } else {
-      cellHeight = Math.floor(this.game.height / this.mapSize.height);
+      cellHeight = this.game.height / this.mapSize.height;
       cellWidth = cellHeight;
     }
 
@@ -39,8 +39,8 @@ export class TileMap<T> {
     const vSpace = this.game.height - cellHeight * this.mapSize.height;
 
     return {
-      x: Math.round(pos.x * cellWidth + hSpace / 2),
-      y: Math.round(pos.y * cellHeight + vSpace / 2),
+      x: pos.x * cellWidth + hSpace / 2,
+      y: pos.y * cellHeight + vSpace / 2,
       width: cellWidth,
       height: cellHeight,
     }

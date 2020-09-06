@@ -48,4 +48,13 @@ export interface SnakeSprites {
   angleDownRight: Sprite;
 }
 
-export type SnakeGameAssets = 'snakeTile' | 'logo';
+export interface WallSprites {
+  stone: Sprite;
+}
+
+export interface GroundSprites {
+  sand: Sprite;
+  ground: Sprite;
+}
+
+export type SnakeGameAssets = 'snakeTile' | 'logo' | 'stoneTile' | 'groundTile';

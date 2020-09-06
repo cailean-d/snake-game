@@ -10,6 +10,8 @@ import { SnakeGameAssets, ObjectFitMinSide } from '/game/interfaces';
 import { GameMenuScene } from '/scenes/gameMenuScene';
 import { GameOverScene } from '/scenes/gameOverScene';
 import snakeTile from '/assets/snake-tiles.png';
+import stoneTile from '/assets/stone-tiles.png';
+import groundTile from '/assets/ground-tiles.png';
 import logo from '/assets/logo.png';
 
 const defaultOptions: GameOptions = {
@@ -20,6 +22,8 @@ export class SnakeGame extends Game<ObjectTypes> {
   public options: GameOptions;
   public collision: CollisionDetection;
   public snakeSpriteSheet: SpriteSheet;
+  public stoneSpriteSheet: SpriteSheet;
+  public groundSpriteSheet: SpriteSheet;
   public assets: AssetLoaderItemsMap<SnakeGameAssets>;
   public score: number;
   private _assetLoader: AssetLoader<SnakeGameAssets>;
@@ -29,6 +33,8 @@ export class SnakeGame extends Game<ObjectTypes> {
     super(canvas);
     this.collision = new CollisionDetection(this);
     this.snakeSpriteSheet = new SpriteSheet();
+    this.stoneSpriteSheet = new SpriteSheet();
+    this.groundSpriteSheet = new SpriteSheet();
     this._assetLoader = new AssetLoader();
     this.score = 0;
     this.mergeOptions(options);
@@ -73,11 +79,15 @@ export class SnakeGame extends Game<ObjectTypes> {
 
   private prepareAssets() {
     this._assetLoader.add('snakeTile', snakeTile);
+    this._assetLoader.add('stoneTile', stoneTile);
+    this._assetLoader.add('groundTile', groundTile);
     this._assetLoader.add('logo', logo);
   }
 
   private loadSpriteSheets() {
     this.snakeSpriteSheet.loadTileSet(this.assets.snakeTile, { width: 64, height: 64 });
+    this.stoneSpriteSheet.loadTileSet(this.assets.stoneTile, { width: 64, height: 64 });
+    this.groundSpriteSheet.loadTileSet(this.assets.groundTile, { width: 32, height: 32 });
   }
   
   private fluidCanvasSize() {

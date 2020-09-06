@@ -12,6 +12,7 @@ body {
 }
 
 canvas {
-  border: 2px solid rgb(151, 149, 149);
+  border: 2px solid #292828;
   background: #353535;
+  outline: none;
 }
