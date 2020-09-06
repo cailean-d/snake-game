@@ -11,14 +11,14 @@ export class GameOverScene extends Scene<ObjectTypes> {
     super(game);
     this.input = new Input(document.body);
     this.addObjects();
-    this.setInput();
+    this.setupInput();
   }
 
   private addObjects() {
     this.addObject(new GameOverLayer(this.game, this));
   }
 
-  private setInput() {
+  private setupInput() {
     this.input.onkeydown(params => {
       if (params.key === KEY.SPACE) {
         this.game.restart()

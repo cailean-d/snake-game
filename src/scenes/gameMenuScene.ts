@@ -11,14 +11,14 @@ export class GameMenuScene extends Scene<ObjectTypes> {
     super(game);
     this.input = new Input(document.body);
     this.addObjects();
-    this.setInput();
+    this.setupInput();
   }
 
   private addObjects() {
     this.addObject(new GameMenuLayer(this.game, this));
   }
 
-  private setInput() {
+  private setupInput() {
     this.input.onkeydown(params => {
       if (params.key === KEY.F) {
         this.game.toggleFullscreen();

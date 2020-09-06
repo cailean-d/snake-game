@@ -19,7 +19,7 @@ export class GameScene extends Scene<ObjectTypes> {
     this.tileMap = new TileMap(this.game, this.game.options.mapSize);
     this.input = new Input(document.body);
     this.addObjects();
-    this.setInput();
+    this.setupInput();
   }
 
   private addObjects() {
@@ -29,7 +29,7 @@ export class GameScene extends Scene<ObjectTypes> {
     this.addObject(new PauseLayer(this.game, this));
   }
 
-  private setInput() {
+  private setupInput() {
     const snake = this.getObject(ObjectTypes.SNAKE) as Snake;
     this.input.onkeydown(params => {
       switch(params.key) {
