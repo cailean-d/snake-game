@@ -12,19 +12,37 @@ export class Renderer<T> {
   }
 
   public drawLabel(label: Label, position: Point) {
+    let x = position.x;
+    let y = position.y;
     let padding = 0;
-    this.game.ctx.textAlign = label.align;
-    this.game.ctx.textBaseline = label.baseLine;
+
+    this.game.ctx.textAlign = 'left';
+    this.game.ctx.textBaseline = 'top';
     this.game.ctx.font = `${label.style} ${label.size}px ${label.font}`;
+
+    const textWidth = this.game.ctx.measureText(label.text).width;
+    const textHeight = 3 / 4 * label.size;
+
+    if (label.align === 'center') {
+      x = position.x - textWidth / 2;
+    } else if (label.align === 'right') {
+      x = position.x - textWidth;
+    }
+
+    if (label.baseLine === 'middle') {
+      y = position.y - (textHeight / 2)
+    } else if (label.baseLine === 'bottom') {
+      y = position.y -(textHeight)
+    }
+
     if (label.background) {
       padding = label.background.padding;
-      const textWidth = this.game.ctx.measureText(label.text).width;
-      const textHeight = 3 / 4 * label.size;
       const dim = { width: textWidth + padding * 2, height: textHeight + padding * 2 };
-      this.fillRect(label.background.color, position, dim);
-    } 
+      this.fillRect(label.background.color, { x, y }, dim);
+    }
+
     this.game.ctx.fillStyle = label.color;
-    this.game.ctx.fillText(label.text, position.x + padding, position.y + padding);
+    this.game.ctx.fillText(label.text, x + padding, y + padding);
   }
 
   public fillTile(color: string, cell: TileMapCell) {

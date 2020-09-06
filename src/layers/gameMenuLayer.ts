@@ -28,7 +28,7 @@ export class GameMenuLayer extends Layer<ObjectTypes> {
     const text = 'PRESS ANY KEY TO START';
     const size = this.game.width / 30;
     const point =  { x: this.game.width / 2, y: this.game.height / 1.4 };
-    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    const label = new Label(text, '#000', size, 'Minecraft', 'normal', 'center', 'middle');
     this.game.renderer.drawLabel(label, point);
   }
 

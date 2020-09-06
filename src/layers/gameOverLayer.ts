@@ -29,7 +29,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const text = 'GAME OVER';
     const size = this.game.width / 15;
     const point =  { x: this.game.width / 2, y: this.game.height / 2.2 };
-    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    const label = new Label(text, '#000', size, 'Minecraft', 'normal', 'center', 'middle');
     this.game.renderer.drawLabel(label, point);
   }
 
@@ -37,7 +37,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const text = `YOUR SCORE: ${this.game.score}`;
     const size = this.game.width / 30;
     const point = { x: this.game.width / 2, y: this.game.height / 1.8 };
-    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    const label = new Label(text, '#000', size, 'Minecraft', 'normal', 'center', 'middle');
     this.game.renderer.drawLabel(label, point);
   }
   
@@ -45,7 +45,7 @@ export class GameOverLayer extends Layer<ObjectTypes> {
     const text = `PRESS SPACE TO RESTART`;
     const size = this.game.width / 30;
     const point = { x: this.game.width / 2, y: this.game.height / 1.1 };
-    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    const label = new Label(text, '#000', size, 'Minecraft', 'normal', 'center', 'middle');
     this.game.renderer.drawLabel(label, point);
   }
 }

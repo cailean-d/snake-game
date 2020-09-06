@@ -9,7 +9,7 @@ export class PauseLayer extends Layer<ObjectTypes> {
 
   constructor(protected game: SnakeGame, protected scene: GameScene) {
     super(game, scene);
-    this.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+    this.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   }
 
   public render() {
@@ -28,7 +28,7 @@ export class PauseLayer extends Layer<ObjectTypes> {
     const text = 'PAUSE';
     const size = this.game.width / 10;
     const point =  { x: this.game.width / 2, y: this.game.height / 2 };
-    const label = new Label(text, '#000', size, 'PixelBoy', 'normal', 'center', 'middle');
+    const label = new Label(text, '#000', size, 'Minecraft', 'normal', 'center', 'middle');
     this.game.renderer.drawLabel(label, point);
   }
 }

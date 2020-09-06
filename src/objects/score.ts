@@ -21,7 +21,7 @@ export class Score extends GameObject<ObjectTypes> {
     const size = this.game.width / 50;
     const point =  { x: 5, y: 5 };
     const bg = { color: 'rgba(0, 0, 0, 0.5)', padding: 5 };
-    const label = new Label(text, '#fff', size, 'PixelBoy', 'normal', 'left', 'middle', bg);
+    const label = new Label(text, '#fff', size, 'Minecraft', 'normal', 'left', 'top', bg);
     this.game.renderer.drawLabel(label, point);
   }
 }
