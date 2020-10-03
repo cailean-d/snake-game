@@ -1,7 +1,7 @@
 # snake-game
 Just a simple snake game written on TypeScript
 
-## Implemented
+### Implemented
 - Concept of scenes, layers, tilemaps, spritesheets, etc.
 - Three scenes
   - Start screen
