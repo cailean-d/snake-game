@@ -1,5 +1,5 @@
 # snake-game
-Just a simple snake game written on TypeScript
+Just a simple snake game written on TypeScript. You can try it __*[here](https://snake-game-1.vercel.app)*__.
 
 ## Implemented
 - Concept of scenes, layers, tilemaps, spritesheets, etc.
